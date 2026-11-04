@@ -404,7 +404,8 @@ function placeNote(rows) {
   const ri = $("f-res").value, cc = $("f-county").value, ci = $("f-city").value;
   if (ri === "" && !cc && !ci) return "";
   const nCounty = rows.filter((r) => placeHit(r) === "county").length, nCity = rows.length - nCounty;
-  let head, inside = [];
+  let head, inside = [], cityLevel = [];
+  const lab = (xs) => xs.map((x) => `${x.name}（${x.level}）`).join("、");
   if (ri !== "") {
     const x = RES[+ri];
     const where = [...x.cty.map((c) => CTY[c]?.n), ...x.cities].filter(Boolean).join("、");
@@ -412,13 +413,16 @@ function placeNote(rows) {
     if (x.fossil) return `${head}为古生物遗迹类保护区，不参与物种匹配。`;
   } else if (cc) {
     head = `${CTY[cc].n}（${CTY[cc].city}）`;
-    inside = RES.filter((x) => !x.fossil && (x.cty.includes(cc) || x.cities.includes(CTY[cc].city)));
+    inside = RES.filter((x) => !x.fossil && x.cty.includes(cc));
+    // 中文：名录只写到市的保护区单列，避免误指到本县；English: city-only reserves listed apart.
+    cityLevel = RES.filter((x) => !x.fossil && x.cities.includes(CTY[cc].city));
   } else {
     head = ci;
     inside = RES.filter((x) => !x.fossil && x.allCities.has(ci));
   }
   let s = `${head}：县级有记录 ${nCounty} 个分类单元` + (nCity ? `；另有 ${nCity} 个只能按市匹配（敏感物种、存疑单元，或保护区名录只写到市），标为“仅市级匹配”` : "") + "。";
-  if (inside.length) s += ` 涉及的自然保护区：${inside.map((x) => `${x.name}（${x.level}）`).join("、")}。`;
+  if (inside.length) s += ` ${cc ? "位于本县" : "涉及"}的自然保护区：${lab(inside)}。`;
+  if (cityLevel.length) s += ` ${CTY[cc].city}另有名录只写到市的保护区：${lab(cityLevel)}，所在县需另行确认。`;
   return s + " 县域记录不等于保护区内记录。";
 }
 
