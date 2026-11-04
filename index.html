@@ -1,0 +1,553 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="河南省陆生脊椎动物名录更新与县级分布：协作说明、资料需求与登记方式。">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>河南陆生脊椎动物编目协作</title>
+<style>
+/* Layout: field-notebook page — a narrow reading column with full-width figure plates and a sticky section index. */
+:root {
+  --bg: #F6F7F3;          /* paper with a faint loess-green bias */
+  --surface: #FFFFFF;
+  --ink: #1E2A2E;
+  --muted: #5B6A6E;
+  --rule: #D5DCD6;
+  --accent: #2F6B5F;      /* Funiu forest green */
+  --accent-2: #8E2F3C;    /* nature-reserve red, as on Fig. 1 */
+  --river: #1F6FA8;
+  --amph: #2E8B78; --rept: #C08A2E; --aves: #3A6EA5; --mamm: #A0435A;
+  --chip: #E7EDE8;
+  --warn: #B26B16;
+  --figbg: #FFFFFF;
+  --serif: "Songti SC", "STSong", "SimSun", "Noto Serif CJK SC", serif;
+  --sans: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif;
+  --mono: ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #141A1B; --surface: #1C2426; --ink: #E4EAE6; --muted: #9AA9A6; --rule: #2E3A3C;
+  --accent: #6FB3A2; --accent-2: #D7838F; --river: #79B3E0; --chip: #243033; --warn: #E3A35A;
+  --amph: #5FC0A8; --rept: #E0B262; --aves: #7FA9DA; --mamm: #D07C92; --figbg: #F4F5F2; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #141A1B; --surface: #1C2426; --ink: #E4EAE6; --muted: #9AA9A6; --rule: #2E3A3C;
+  --accent: #6FB3A2; --accent-2: #D7838F; --river: #79B3E0; --chip: #243033; --warn: #E3A35A;
+  --amph: #5FC0A8; --rept: #E0B262; --aves: #7FA9DA; --mamm: #D07C92; --figbg: #F4F5F2; color-scheme: dark }
+
+* { box-sizing: border-box }
+html { scroll-behavior: smooth; scroll-padding-top: calc(56px + env(safe-area-inset-top, 0px)) }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto } }
+body { background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 15.5px; line-height: 1.75; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg) }
+.wrap { max-width: 1080px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)) }
+.read { max-width: 46em }
+h1, h2, h3 { font-family: var(--serif); text-wrap: balance; line-height: 1.3; margin: 0 }
+h1 { font-size: clamp(1.9rem, 4.6vw, 2.9rem); font-weight: 700; letter-spacing: 0.01em }
+h2 { font-size: 1.55rem; font-weight: 700 }
+h3 { font-size: 1.1rem; font-weight: 700 }
+p { margin: 0 }
+a { color: var(--accent) }
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
+.en { display: block; font-family: var(--sans); font-weight: 400; color: var(--muted); font-size: 0.62em; letter-spacing: 0.02em; margin-top: 4px }
+.label { font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted) }
+.num { font-family: var(--mono); font-variant-numeric: tabular-nums }
+
+/* sticky index */
+nav.index { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(6px); border-bottom: 1px solid var(--rule) }
+nav.index .wrap { display: flex; gap: 4px 18px; overflow-x: auto; padding-block: 10px; scrollbar-width: none; white-space: nowrap }
+nav.index a { color: var(--muted); text-decoration: none; font-size: 0.86rem }
+nav.index a:hover { color: var(--ink) }
+
+header.top { padding-block: 56px 36px; border-bottom: 1px solid var(--rule) }
+header.top .grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 36px; align-items: end }
+header.top .lede { margin-top: 18px; color: var(--ink); max-width: 38em }
+.meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px }
+.chip { background: var(--chip); border-radius: 999px; padding: 2px 10px; font-size: 0.8rem; color: var(--ink) }
+.chip.warn { color: var(--warn) }
+
+/* specimen label: the core count */
+.tag { border: 1px solid var(--ink); background: var(--surface); padding: 18px 20px 16px; position: relative }
+.tag::before { content: ""; position: absolute; left: 14px; top: -7px; width: 12px; height: 12px; border-radius: 50%; border: 1px solid var(--ink); background: var(--bg) }
+.tag .big { font-family: var(--serif); font-size: 3.4rem; line-height: 1; font-weight: 700 }
+.tag .big small { font-size: 1rem; font-family: var(--sans); font-weight: 500; margin-left: 6px }
+.tag dl { display: grid; grid-template-columns: auto 1fr; gap: 2px 14px; margin: 14px 0 0; font-size: 0.86rem }
+.tag dt { color: var(--muted) }
+.tag dd { margin: 0 }
+
+section { padding-block: 52px; border-bottom: 1px solid var(--rule) }
+section > .wrap > h2 { margin-bottom: 18px }
+.stack { display: grid; gap: 14px }
+
+/* class coverage rows */
+.classes { display: grid; gap: 10px; margin-top: 26px }
+.crow { display: grid; grid-template-columns: 9.5em minmax(0, 1fr) 5.5em; gap: 14px; align-items: center }
+.crow .name { font-weight: 500 }
+.crow .name i { font-style: normal; color: var(--muted); font-size: 0.82rem; display: block; line-height: 1.2 }
+.bars { display: grid; gap: 4px }
+.bar { height: 10px; background: var(--chip); position: relative; border-radius: 2px; overflow: hidden }
+.bar span { position: absolute; inset: 0 auto 0 0; border-radius: 2px }
+.bar.cty span { opacity: 0.55 }
+.crow .val { font-family: var(--mono); font-size: 0.82rem; color: var(--muted); text-align: right; line-height: 1.35 }
+.legend-mini { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 0.8rem; color: var(--muted); margin-top: 8px }
+.legend-mini b { display: inline-block; width: 22px; height: 8px; background: var(--muted); margin-right: 6px; vertical-align: middle; border-radius: 2px }
+
+/* figures */
+.plates { display: grid; gap: 40px }
+figure { margin: 0 }
+figure .plate { background: var(--figbg); border: 1px solid var(--rule); padding: 10px; cursor: zoom-in; display: block; width: 100% }
+figure img { display: block; width: 100%; height: auto }
+figcaption { margin-top: 10px; font-size: 0.88rem; color: var(--ink); max-width: 52em }
+figcaption .en { font-size: 0.82rem; margin-top: 4px; line-height: 1.6 }
+figcaption b { font-family: var(--serif) }
+.zoom { position: fixed; inset: 0; z-index: 20; background: rgba(10, 14, 15, 0.86); display: grid; place-items: center; padding: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); cursor: zoom-out }
+.zoom img { max-width: 100%; max-height: 100%; background: #fff }
+
+/* tables */
+.tbl { overflow-x: auto; border: 1px solid var(--rule); background: var(--surface) }
+table { border-collapse: collapse; width: 100%; font-size: 0.86rem; min-width: 640px }
+th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--rule); vertical-align: top }
+th { font-weight: 700; font-size: 0.8rem; color: var(--muted); background: var(--bg); position: sticky; top: 0 }
+tbody tr:last-child td { border-bottom: 0 }
+td.sci { font-style: italic; white-space: nowrap }
+td.n { font-family: var(--mono); text-align: right; font-variant-numeric: tabular-nums }
+.pill { display: inline-block; padding: 0 8px; border-radius: 999px; font-size: 0.76rem; background: var(--chip); white-space: nowrap }
+.pill.p1 { color: var(--accent-2) } .pill.p2 { color: var(--warn) } .pill.p3 { color: var(--accent) }
+
+/* partner grid */
+.partners { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px }
+.partner { border-top: 3px solid var(--accent); background: var(--surface); padding: 16px 18px 18px; display: grid; gap: 8px; align-content: start; min-width: 0 }
+.partner:nth-child(2) { border-top-color: var(--accent-2) } .partner:nth-child(3) { border-top-color: var(--river) }
+.partner:nth-child(4) { border-top-color: var(--rept) } .partner:nth-child(5) { border-top-color: var(--aves) } .partner:nth-child(6) { border-top-color: var(--muted) }
+.partner ul { margin: 0; padding-left: 1.1em; font-size: 0.9rem }
+.partner .give { font-size: 0.82rem; color: var(--muted) }
+
+/* review lists */
+.tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px }
+.tabs button, .filters select, .filters input { font: inherit; font-size: 0.88rem; color: var(--ink); background: var(--surface); border: 1px solid var(--rule); padding: 6px 12px; border-radius: 4px }
+.tabs button[aria-selected="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink) }
+.filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px }
+.filters input { min-width: 0; flex: 1 1 200px }
+.count { font-size: 0.82rem; color: var(--muted); margin-bottom: 8px }
+
+/* timeline */
+.phases { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 0; border-left: 1px solid var(--rule) }
+.phase { padding: 4px 18px 8px; border-right: 1px solid var(--rule); display: grid; gap: 6px; align-content: start; min-width: 0 }
+.phase .when { font-family: var(--mono); font-size: 0.78rem; color: var(--accent) }
+.phase ul { margin: 0; padding-left: 1.1em; font-size: 0.88rem }
+
+.two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px }
+.note { border-left: 3px solid var(--warn); padding: 6px 0 6px 14px; font-size: 0.9rem; color: var(--ink); background: transparent }
+footer { padding-block: 36px 56px; color: var(--muted); font-size: 0.84rem }
+
+@media (max-width: 760px) {
+  header.top .grid, .two { grid-template-columns: minmax(0, 1fr) }
+  .crow { grid-template-columns: 6.8em minmax(0, 1fr) 4.6em; gap: 10px }
+  header.top { padding-block: 36px 28px }
+  section { padding-block: 40px }
+}
+
+/* registration form */
+.reg { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 28px; align-items: start }
+form.card { background: var(--surface); border: 1px solid var(--rule); padding: 20px; display: grid; gap: 14px; min-width: 0 }
+fieldset { border: 0; padding: 0; margin: 0; display: grid; gap: 10px; min-width: 0 }
+legend { font-family: var(--serif); font-weight: 700; font-size: 1rem; margin-bottom: 4px; padding: 0 }
+.f2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px }
+.field { display: grid; gap: 4px; min-width: 0 }
+.field > span { font-size: 0.82rem; color: var(--muted) }
+.field > span em { color: var(--accent-2); font-style: normal }
+.field input, .field select, .field textarea { font: inherit; font-size: 0.92rem; color: var(--ink); background: var(--bg); border: 1px solid var(--rule); border-radius: 4px; padding: 7px 10px; width: 100%; min-width: 0 }
+.field textarea { min-height: 72px; resize: vertical }
+.checks { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 0.9rem }
+.checks label { display: inline-flex; gap: 6px; align-items: center }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center }
+.btn { font: inherit; font-size: 0.9rem; border-radius: 4px; padding: 8px 16px; cursor: pointer; border: 1px solid var(--ink); background: var(--ink); color: var(--bg) }
+.btn.ghost { background: transparent; color: var(--ink); border-color: var(--rule) }
+.btn:disabled { opacity: 0.5; cursor: not-allowed }
+.status { font-size: 0.86rem; color: var(--muted) }
+.status.err { color: var(--accent-2) }
+.status.ok { color: var(--accent) }
+.roster { display: grid; gap: 10px; min-width: 0 }
+.entry { background: var(--surface); border: 1px solid var(--rule); padding: 12px 14px; display: grid; gap: 4px; font-size: 0.88rem; min-width: 0 }
+.entry .who { font-weight: 700 }
+.entry .what { color: var(--muted); overflow-wrap: anywhere }
+.entry .tags { display: flex; flex-wrap: wrap; gap: 4px }
+.entry button { justify-self: start; font: inherit; font-size: 0.8rem; background: none; border: 0; color: var(--accent-2); padding: 0; cursor: pointer }
+.empty { border: 1px dashed var(--rule); padding: 18px; font-size: 0.88rem; color: var(--muted) }
+@media (max-width: 760px) { .reg, .f2 { grid-template-columns: minmax(0, 1fr) } }
+
+/* background / method / basis */
+.cols3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 22px; margin-top: 22px }
+.cols3 > div { display: grid; gap: 8px; align-content: start; min-width: 0 }
+.cols3 h3 { font-size: 1rem }
+.cols3 p, .cols3 li { font-size: 0.92rem }
+.cols3 ul { margin: 0; padding-left: 1.1em }
+ol.steps { list-style: none; counter-reset: st; margin: 22px 0 0; padding: 0; display: grid; gap: 0; border-top: 1px solid var(--rule) }
+ol.steps li { counter-increment: st; display: grid; grid-template-columns: 3.2em minmax(0, 1fr); gap: 14px; padding-block: 14px; border-bottom: 1px solid var(--rule) }
+ol.steps li::before { content: counter(st, decimal-leading-zero); font-family: var(--mono); color: var(--accent); font-size: 1.05rem; padding-top: 2px }
+ol.steps h3 { font-size: 1rem; margin-bottom: 2px }
+ol.steps p { font-size: 0.9rem; color: var(--ink) }
+.assets { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 14px; margin-top: 14px }
+.asset { background: var(--surface); border: 1px solid var(--rule); padding: 14px 16px; display: grid; gap: 6px; align-content: start; min-width: 0 }
+.asset .figs { font-family: var(--mono); font-size: 0.82rem; color: var(--accent); font-variant-numeric: tabular-nums }
+.asset p { font-size: 0.88rem }
+.asset .st { font-size: 0.78rem; color: var(--muted) }
+.funds { display: grid; gap: 8px; margin-top: 10px }
+.fund { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--rule); font-size: 0.9rem }
+.fund .no { font-family: var(--mono); font-size: 0.84rem; color: var(--muted); white-space: nowrap }
+.invite { background: var(--surface); border-left: 3px solid var(--accent); padding: 18px 20px; display: grid; gap: 10px; max-width: 52em }
+.invite p { font-size: 0.96rem }
+@media (max-width: 760px) { .fund { grid-template-columns: minmax(0, 1fr) } }
+
+/* contact footer */
+footer.site { border-top: 1px solid var(--rule); background: var(--surface); padding-block: 40px 56px }
+.contact { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 28px; align-items: start }
+.contact .who { display: grid; gap: 6px }
+.contact .who .name { font-family: var(--serif); font-size: 1.25rem; font-weight: 700 }
+.contact .who p { font-size: 0.9rem; color: var(--muted) }
+.lines { display: grid; gap: 0; border-top: 1px solid var(--rule) }
+.line { display: grid; grid-template-columns: 6.5em minmax(0, 1fr) auto; gap: 12px; align-items: center; padding-block: 12px; border-bottom: 1px solid var(--rule) }
+.line .k { font-size: 0.82rem; color: var(--muted) }
+.line .v { font-family: var(--mono); font-size: 1rem; user-select: all; overflow-wrap: anywhere; font-variant-numeric: tabular-nums }
+.copy { font: inherit; font-size: 0.8rem; background: transparent; color: var(--accent); border: 1px solid var(--rule); border-radius: 4px; padding: 4px 10px; cursor: pointer; min-width: 4.5em }
+.fine { margin-top: 26px; font-size: 0.82rem; color: var(--muted); display: grid; gap: 4px }
+@media (max-width: 760px) { .contact { grid-template-columns: minmax(0, 1fr) } .line { grid-template-columns: minmax(0, 1fr) auto } .line .k { grid-column: 1 / -1 } }
+
+.reg-go { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: center; background: var(--surface); border: 1px solid var(--rule); padding: 20px }
+.reg-go .btn { justify-self: start; text-decoration: none }
+.qr { margin: 0; display: grid; gap: 6px; justify-items: center; font-size: 0.8rem; color: var(--muted) }
+.qr svg { width: 148px; height: 148px; background: #fff; padding: 6px }
+.dl { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; margin-top: 16px }
+.dl .btn { text-decoration: none }
+a.v { color: var(--ink); text-decoration: none }
+@media (max-width: 760px) { .reg-go { grid-template-columns: minmax(0, 1fr) } .qr { justify-items: start } }
+</style>
+
+<nav class="index" aria-label="页面目录"><div class="wrap">
+  <a href="#about">背景与目标</a><a href="#methods">方法流程</a><a href="#basis">项目与数据</a><a href="#status">名录现状</a><a href="#figures">图件</a><a href="#gaps">局限与需求</a><a href="#partners">合作分工</a><a href="#register">资料登记</a><a href="#review">优先核查</a><a href="#standard">汇交规范</a><a href="#plan">工作计划</a><a href="#thanks">邀请与致谢</a><a href="#contact">联系</a>
+</div></nav>
+
+<header class="top"><div class="wrap grid">
+  <div>
+    <p class="label">Henan terrestrial vertebrate inventory · collaboration brief</p>
+    <h1>河南省陆生脊椎动物编目协作<span class="en">Henan Terrestrial Vertebrate Inventory: Collaboration Brief</span></h1>
+    <p class="lede">本页面向省内高校类群团队、自然保护地、主管部门和标本馆，介绍名录 v12 的现状、仍未解决的问题，以及邀请各方共同补充的资料。目标是在统一分类标准和证据规则下，形成一份逐种可追溯、具有县级分布的河南省陆生脊椎动物名录，并作为后续监测和保护评估的基线。我们诚挚邀请各位专家学者和同仁加入，共同完成这份属于河南的动物本底名录。</p>
+    <div class="meta">
+      <span class="chip">名录 v12 · 2026-11-04</span>
+      <span class="chip">分类标准：中国生物物种名录 2026</span>
+      <span class="chip warn">研究稿，尚未发表，请勿外传或引用</span>
+    </div>
+  </div>
+  <div class="tag" aria-label="名录收录物种数">
+    <p class="label">Listed species · 收录物种</p>
+    <p class="big num">655<small>种</small></p>
+    <dl>
+      <dt>分类阶元</dt><dd class="num">33 目 · 127 科 · 370 属</dd>
+      <dt>占全国四纲</dt><dd class="num">17.53%（3,736 种）</dd>
+      <dt>证据来源</dt><dd class="num">数据库 601 · 文献标本 30 · 重复观测 24</dd>
+      <dt>另列存疑</dt><dd class="num">90 个分类单元</dd>
+      <dt>重点保护</dt><dd class="num">国家一级 29 · 二级 108</dd>
+    </dl>
+  </div>
+</div></header>
+
+<main>
+<section id="about"><div class="wrap">
+  <h2>编目背景与目标<span class="en">Why a new Henan checklist</span></h2>
+  <div class="read stack">
+    <p>物种名录是一个地区生物区系的本底资料，回答“这里有哪些物种、它们分布在哪里”两个最基本的问题。前者对应生物多样性知识中的“林奈缺口”（物种分类认识不足），后者对应“华莱士缺口”（分布信息不足）。名录的及时更新，是保护规划、受威胁等级评估、保护名录修订和长期监测的共同起点。</p>
+    <p>河南地处暖温带与北亚热带的过渡地带，太行山、伏牛山、桐柏山、大别山与黄淮海平原相接，地跨长江、淮河、黄河和海河四大流域，是古北界与东洋界动物交汇的关键区域。近百年来，河南积累了大量调查与研究资料，但官方统计只公布总数（520—677 种不等），全国数据库的省份分布更新滞后，新纪录、红外相机和公民科学记录也分散在不同来源中，至今没有一份逐种可核查、带县级分布的全省名录。</p>
+  </div>
+  <div class="cols3">
+    <div><h3>研究目标</h3><ul>
+      <li>在统一分类标准和证据规则下，编制可追溯的河南省陆生脊椎动物名录</li>
+      <li>逐项说明新增、存疑、移除与名称厘定</li>
+      <li>汇编物种的县级分布，量化各类群的空间覆盖</li>
+      <li>识别知识缺口，提出调查、监测与数据建设方向</li>
+    </ul></div>
+    <div><h3>科学价值</h3><ul>
+      <li>在省域尺度识别和缩小林奈缺口与华莱士缺口</li>
+      <li>为南北过渡带的区系交汇、分布边缘动态研究提供基线</li>
+      <li>为全国物种数据库的省份分布提供校验和补充</li>
+    </ul></div>
+    <div><h3>实践意义</h3><ul>
+      <li>支撑《关于进一步加强生物多样性保护的意见》提出的本底调查与评估</li>
+      <li>服务《野生动物保护法》要求的野生动物及其栖息地档案建设</li>
+      <li>为地方重点保护名录修订、黄河流域生物多样性保护和保护地管理提供依据</li>
+    </ul></div>
+  </div>
+</div></section>
+
+<section id="methods"><div class="wrap">
+  <h2>方法流程<span class="en">How the checklist is built</span></h2>
+  <p class="read">编目按以下五个步骤进行，每个物种的收录或存疑决定都保留来源和理由，可逐条回查。</p>
+  <ol class="steps">
+    <li><div><h3>统一分类标准</h3><p>以《中国生物物种名录》2026 版为准，建立同物异名与旧名对照，分类修订采用原始研究的处理意见。</p></div></li>
+    <li><div><h3>整合多源资料</h3><p>数据库河南分布、新纪录与类群修订文献、红外相机数据、保护地科考与资源调查资料、政府公开文件，以及中国观鸟记录中心的观鸟报告。</p></div></li>
+    <li><div><h3>证据分级</h3><p>按数据库记载、标本与分子鉴定、已发表文献与红外相机影像、重复观测四类收录；证据不足、仅见二手名录、分类概念不明或起源待核的列为存疑。</p></div></li>
+    <li><div><h3>县级分布与敏感信息处理</h3><p>只采用能明确对应到县级单元的记录；国家一级重点保护和极危、濒危物种只公开到市级。</p></div></li>
+    <li><div><h3>专家审定与版本发布</h3><p>邀请各类群专家审定存疑与重复观测名单，名录与县级分布数据集按版本发布，并建立年度更新机制。</p></div></li>
+  </ol>
+</div></section>
+
+<section id="basis"><div class="wrap">
+  <h2>依托项目与数据基础<span class="en">Funding and data foundations</span></h2>
+  <div class="two">
+    <div class="stack">
+      <h3>依托项目</h3>
+      <div class="funds">
+        <div class="fund"><span>国家自然科学基金青年科学基金项目（C 类）：中国陆生脊椎动物新纪录发现机制与热点预测（2027.01—2029.12，已获批，主持：丁晨晨）</span><span class="no">32602379</span></div>
+        <div class="fund"><span>北京市自然科学基金青年 C 类项目：中国哺乳动物新纪录分类学特征与时空格局研究（2026.01—2027.12，在研，主持：丁晨晨）</span><span class="no">5264031</span></div>
+      </div>
+      <p class="count">本编目是上述项目中陆生脊椎动物新纪录与生物多样性知识缺口研究的组成部分。</p>
+      <h3>相关编目工作</h3>
+      <ul style="margin:0;padding-left:1.1em;font-size:.92rem">
+        <li>编委：《中国哺乳动物多样性：编目、分布与保护》（蒋志刚等，2024，海峡出版社）</li>
+        <li>参与：《中国生物多样性红色名录—脊椎动物卷》编研</li>
+      </ul>
+    </div>
+    <div class="stack">
+      <h3>项目组已有的数据积累</h3>
+      <p style="font-size:.92rem">项目组长期从事中国陆生脊椎动物新分布纪录的收集与分析，已建成以下数据库。它们是本次河南编目的主要资料来源，也可以为合作者的研究提供支持。</p>
+    </div>
+  </div>
+  <div class="assets">
+    <div class="asset"><h3>中国鸟类省级新纪录数据集（CBNR）</h3><p class="figs">1,029 条记录 · 568 种 · 33 个省级单元 · 2000—2025</p><p>逐条整理、分类标准化并带坐标的鸟类省级新分布纪录。</p><p class="st">已公开：Zenodo，doi:10.5281/zenodo.20809949</p></div>
+    <div class="asset"><h3>中国哺乳动物省级新纪录数据集</h3><p class="figs">全国哺乳动物省级新分布纪录</p><p>用于分析新纪录的发现机制与空间格局。</p><p class="st">已发表：Ding et al., 2025, Global Ecology and Biogeography</p></div>
+    <div class="asset"><h3>中国两栖爬行动物省级新纪录数据集（CHNR）</h3><p class="figs">437 个新纪录事件 · 288 种 · 32 个省级单元</p><p>与 CBNR 采用相同的事件定义和清洗流程。</p><p class="st">整理完成，尚未发表</p></div>
+    <div class="asset"><h3>中国红外相机监测文献数据库</h3><p class="figs">931 篇文献 · 1,223 个调查单元 · 35,405 条指标记录 · 934 种</p><p>汇总全国红外相机研究的物种记录、调查努力与相对丰度指标。</p><p class="st">审查版，持续更新</p></div>
+    <div class="asset"><h3>中国观鸟记录中心河南数据</h3><p class="figs">2010—2024 年 · 9,137 次报告活动 · 133 个县级单元</p><p>经数据提供者许可用于本研究，原始明细不对外分发。</p><p class="st">2026 年 8 月下载</p></div>
+  </div>
+</div></section>
+
+<section id="status"><div class="wrap">
+  <h2>名录现状<span class="en">Where the checklist stands</span></h2>
+  <div class="read stack">
+    <p>名录整合了《中国生物物种名录》河南分布、分类与调查文献、新纪录与红外相机数据集、政府公开文件，以及中国观鸟记录中心 2010—2024 年的 9,137 次报告。789 个来源名称经异名归并和证据分级后，收录 655 种，另有 90 个分类单元因证据不足列为存疑。</p>
+    <p>最突出的问题是县级分布极不均衡。鸟类记录覆盖 157 个县级单元中的 131 个，两栖、爬行和哺乳类分别只有 5、3、9 个县级单元有可追溯的记录。这些空白大多不是没有调查，而是已有调查成果尚未整理成“物种—地点—凭证”的形式，这正是本次协作希望解决的部分。</p>
+  </div>
+  <div class="classes" id="classes" aria-label="各纲物种数与县级覆盖"></div>
+  <div class="legend-mini"><span><b style="background:var(--muted)"></b>收录物种数（与鸟纲 495 种同一比例）</span><span><b style="background:var(--muted);opacity:.55"></b>有记录的县级单元占 157 个的比例</span></div>
+</div></section>
+
+<section id="figures"><div class="wrap">
+  <h2>图件<span class="en">Figures (v12 manuscript)</span></h2>
+  <p class="count">点击图片可放大查看。图件为研究稿版本，坐标和县级细节以正式发布版为准。</p>
+  <div class="plates" id="plates"></div>
+</div></section>
+
+<section id="gaps"><div class="wrap">
+  <h2>现存局限与协作需求<span class="en">Known limitations and the data that would resolve them</span></h2>
+  <p class="read" style="margin-bottom:18px">下表对应文稿“研究局限”一节。每一项都列出了需要的资料、最可能提供资料的合作方，以及资料到位后名录能得到的改进。</p>
+  <div class="tbl"><table>
+    <thead><tr><th style="width:4em">优先</th><th>现存局限</th><th>需要的资料</th><th>主要合作方</th><th>资料到位后的改进</th></tr></thead>
+    <tbody>
+      <tr><td><span class="pill p1">高</span></td><td>两栖、爬行、哺乳类县级记录仅覆盖 3%—6% 的县级单元</td><td>历次调查的逐种采集地或样点清单；保护地综合科考名录的原始地点；馆藏标本号与采集地</td><td>高校类群团队、保护地、主管部门</td><td>非鸟类群县级分布图可用于正文分析和保护规划</td></tr>
+      <tr><td><span class="pill p1">高</span></td><td>第二次陆生野生动物资源调查成果未见逐种公开</td><td>调查成果中的物种名录、分布县和凭证类型（可只提供汇总表）</td><td>省林业主管部门、调查承担单位</td><td>可与本名录逐种对照，解释 677 种与 655 种之间的差异</td></tr>
+      <tr><td><span class="pill p1">高</span></td><td>小型兽类、翼手目和两栖爬行类的分类与鉴定仍在更新</td><td>标本检视意见；分子鉴定结果；近年分类修订的河南材料</td><td>高校分类学团队、标本馆</td><td>减少旧名和误鉴，识别可能的隐存类群</td></tr>
+      <tr><td><span class="pill p2">中</span></td><td>24 种重复观测鸟类尚未逐条审核影像</td><td>带影像的观鸟记录、鸟类环志与监测记录</td><td>鸟类研究团队、观鸟组织、保护地</td><td>确认或剔除，形成稳健的核心名录</td></tr>
+      <tr><td><span class="pill p2">中</span></td><td>90 个分类单元存疑（见“优先核查”清单）</td><td>原始凭证、照片、文献原文或专家意见</td><td>各类群专家</td><td>存疑项逐条转为收录、排除或保留存疑</td></tr>
+      <tr><td><span class="pill p2">中</span></td><td>保护地综合科考资料多为转引，未见原书</td><td>科考报告原书或扫描件、名录附表</td><td>各自然保护区管理机构</td><td>补全历史记录，恢复年代可靠的分布基线</td></tr>
+      <tr><td><span class="pill p3">一般</span></td><td>居留型、繁殖状态与区系成分未评估</td><td>鸟类居留与繁殖证据；区系划分意见</td><td>鸟类与动物地理学者</td><td>可计算区系组成，支持过渡带分析</td></tr>
+      <tr><td><span class="pill p3">一般</span></td><td>行政底图来源、IUCN 快照版本待核定；保护地矢量不完整</td><td>官方县界与保护地边界数据或其来源说明</td><td>主管部门</td><td>地图可正式出版</td></tr>
+    </tbody>
+  </table></div>
+</div></section>
+
+<section id="partners"><div class="wrap">
+  <h2>合作分工<span class="en">Who can contribute what</span></h2>
+  <div class="partners">
+    <article class="partner"><h3>高校类群团队</h3><p class="give">两栖爬行、兽类、翼手目、鸟类研究组</p>
+      <ul><li>审定本类群名录与存疑项</li><li>提供已发表和未发表调查的逐种地点</li><li>检视标本、复核照片与分子鉴定结果</li></ul></article>
+    <article class="partner"><h3>自然保护地管理机构</h3><p class="give">国家级与省级自然保护区、国家公园候选区</p>
+      <ul><li>综合科考报告原书与名录附表</li><li>红外相机物种清单（按站点或片区汇总即可）</li><li>巡护与监测中的影像凭证</li></ul></article>
+    <article class="partner"><h3>主管部门</h3><p class="give">林业、生态环境、农业农村等部门</p>
+      <ul><li>资源调查成果的物种名录与分布县</li><li>地方重点保护名录修订需求</li><li>官方行政与保护地边界数据</li></ul></article>
+    <article class="partner"><h3>标本馆与博物馆</h3><p class="give">高校标本馆、自然博物馆</p>
+      <ul><li>河南馆藏标本清单（物种、采集地、年份、馆藏号）</li><li>疑难标本的检视机会</li><li>历史标本的数字化</li></ul></article>
+    <article class="partner"><h3>观鸟与公众科学</h3><p class="give">观鸟会、自然教育机构、平台审核员</p>
+      <ul><li>重复观测鸟类的影像审核</li><li>稀见种记录的原始照片</li><li>非鸟类群的影像线索</li></ul></article>
+    <article class="partner"><h3>项目组</h3><p class="give">数据整合、分析与写作</p>
+      <ul><li>按统一规范整合资料并反馈核对结果</li><li>维护名录版本与修订记录</li><li>组织专家审定会议与论文撰写</li></ul></article>
+  </div>
+</div></section>
+
+<section id="register"><div class="wrap">
+  <h2>资料登记<span class="en">Tell us what you can contribute</span></h2>
+  <p class="read" style="margin-bottom:18px">请登记您或您的单位可以提供的资料，每项资料单独填写，可多次补充。登记只是意向，不需要现在提交原始数据；项目组会根据登记内容逐一联系，商定汇交方式。</p>
+  <div class="stack"><p class="note">在线问卷即将开通。目前可以先下载登记表填写，发送至下方邮箱或通过微信联系。</p></div>
+  <div class="dl"><a class="btn ghost" href="files/河南编目协作_资料登记表.xlsx" download>下载 Excel 登记表</a>
+    <span class="status">含“资料登记”“逐条记录（可选）”和“填写说明”三张表，填好后发送至 chenchen.ding@pku.edu.cn。</span></div>
+</div></section>
+
+<section id="review"><div class="wrap">
+  <h2>优先核查清单<span class="en">Priority review lists</span></h2>
+  <p class="read" style="margin-bottom:18px">以下名单需要类群专家的凭证或意见。如掌握相关标本、照片或文献，请告知项目组。国家一级重点保护和中国红色名录极危、濒危物种的县级位置不在此公开。</p>
+  <div class="tabs" role="tablist">
+    <button role="tab" id="tab-rep" aria-selected="true" aria-controls="panel-rep">重复观测鸟类 <span class="num">24</span></button>
+    <button role="tab" id="tab-dbt" aria-selected="false" aria-controls="panel-dbt">存疑分类单元 <span class="num">90</span></button>
+  </div>
+  <div id="panel-rep" role="tabpanel" aria-labelledby="tab-rep">
+    <p class="count">已按规则纳入名录，但尚无逐条影像审核。按报告次数排序。</p>
+    <div class="tbl"><table><thead><tr><th>中文名</th><th>学名</th><th style="text-align:right">报告次数</th><th style="text-align:right">跨年数</th><th style="text-align:right">县级单元</th><th>范围图相交</th></tr></thead><tbody id="rep-body"></tbody></table></div>
+  </div>
+  <div id="panel-dbt" role="tabpanel" aria-labelledby="tab-dbt" hidden>
+    <div class="filters">
+      <select id="f-class" aria-label="按纲筛选"><option value="">全部纲</option><option>两栖纲</option><option>爬行纲</option><option>鸟纲</option><option>哺乳纲</option></select>
+      <select id="f-reason" aria-label="按存疑原因筛选"><option value="">全部原因</option></select>
+      <input id="f-q" type="search" placeholder="搜索中文名或学名" aria-label="搜索中文名或学名">
+    </div>
+    <p class="count" id="dbt-count"></p>
+    <div class="tbl"><table><thead><tr><th>纲</th><th>中文名</th><th>学名</th><th>存疑原因</th><th>依据</th></tr></thead><tbody id="dbt-body"></tbody></table></div>
+  </div>
+</div></section>
+
+<section id="standard"><div class="wrap">
+  <h2>资料汇交规范<span class="en">How to share records</span></h2>
+  <div class="two">
+    <div class="stack">
+      <h3>建议字段（参照 Darwin Core）</h3>
+      <div class="tbl"><table style="min-width:0"><thead><tr><th>字段</th><th>说明</th></tr></thead><tbody>
+        <tr><td class="num">scientificName</td><td>原报学名；项目组统一对照到 2026 版名录</td></tr>
+        <tr><td class="num">verbatimLocality</td><td>原始地点文字，尽量到乡镇或保护区片区</td></tr>
+        <tr><td class="num">county</td><td>县级行政单元</td></tr>
+        <tr><td class="num">decimalLatitude / Longitude</td><td>可选；敏感物种可只给到县</td></tr>
+        <tr><td class="num">eventDate</td><td>观察或采集日期，至少到年</td></tr>
+        <tr><td class="num">basisOfRecord</td><td>标本、照片、红外相机、目击、文献</td></tr>
+        <tr><td class="num">catalogNumber / associatedMedia</td><td>馆藏号或影像编号</td></tr>
+        <tr><td class="num">identifiedBy / recordedBy</td><td>鉴定人与记录人</td></tr>
+        <tr><td class="num">source</td><td>来源报告、论文或项目名称</td></tr>
+      </tbody></table></div>
+      <p class="count">Excel、CSV 或原有表格格式均可，项目组负责转换。</p>
+    </div>
+    <div class="stack">
+      <h3>证据分级</h3>
+      <div class="tbl"><table style="min-width:0"><thead><tr><th>等级</th><th>判定依据</th></tr></thead><tbody>
+        <tr><td>数据库记载</td><td>《中国生物物种名录》分布含河南，无修订意见</td></tr>
+        <tr><td>文献与标本</td><td>标本、分子鉴定、已发表新纪录或红外相机影像</td></tr>
+        <tr><td>重复观测</td><td>报告不少于 3 次、跨不少于 2 年，并满足范围或县数条件</td></tr>
+        <tr><td>存疑</td><td>证据不足、仅见二手名录、分类概念不明或起源待核</td></tr>
+      </tbody></table></div>
+      <h3>数据使用与署名</h3>
+      <ul style="margin:0;padding-left:1.1em;font-size:.92rem">
+        <li>原始记录仅用于本名录，不向第三方转交。</li>
+        <li>国家一级重点保护和极危、濒危物种只公开到市级，精确坐标不公开。</li>
+        <li>提供资料的单位和个人在论文、数据集和致谢中按贡献署名，具体方式在专家会议上商定。</li>
+        <li>名录按版本发布，每次修订保留来源和变更记录。</li>
+      </ul>
+    </div>
+  </div>
+</div></section>
+
+<section id="plan"><div class="wrap">
+  <h2>工作计划<span class="en">Proposed workplan</span></h2>
+  <p class="count">以下时间为建议安排，将根据各合作方的反馈调整。</p>
+  <div class="phases">
+    <div class="phase"><p class="when">2026-11 — 12</p><h3>联络与资料清单</h3><ul><li>分发本页与名录工作表</li><li>各方反馈可提供的资料类型</li><li>商定数据使用与署名原则</li></ul></div>
+    <div class="phase"><p class="when">2027-01 — 03</p><h3>资料汇交与核对</h3><ul><li>汇交逐种地点、科考名录与标本清单</li><li>标本与影像检视</li><li>项目组整合并反馈差异</li></ul></div>
+    <div class="phase"><p class="when">2027-04</p><h3>专家审定</h3><ul><li>分类群逐项审定存疑与重复观测名单</li><li>确定收录规则的最终版本</li></ul></div>
+    <div class="phase"><p class="when">2027-05 — 06</p><h3>成文与发布</h3><ul><li>修订稿投《生物多样性》生物编目栏目</li><li>名录与县级分布数据集同步发布</li><li>建立年度更新机制</li></ul></div>
+  </div>
+</div></section>
+<section id="thanks"><div class="wrap">
+  <h2>合作邀请与致谢<span class="en">Invitation and acknowledgements</span></h2>
+  <div class="invite">
+    <p>河南动物本底的完善离不开长期在一线工作的研究者和管理者。我们诚挚邀请省内外从事两栖爬行动物、鸟类和兽类研究的专家学者，以及各自然保护地、主管部门、标本馆和观鸟组织的同仁参与本次编目。无论是一份调查名录、一批标本照片，还是对存疑物种的审定意见，都会让这份名录更完整、更可靠。所有贡献都将在论文、数据集和致谢中如实体现。</p>
+    <p>感谢历次河南动物调查、保护地综合科考和类群研究的前辈与同行，你们的工作奠定了本次编目的基础；感谢中国观鸟记录中心和广大观鸟者提供观鸟数据；感谢各位专家和合作单位对本项工作的关心与支持。</p>
+  </div>
+</div></section>
+
+</main>
+
+<footer class="site" id="contact"><div class="wrap">
+  <div class="contact">
+    <div class="who">
+      <p class="label">Contact · 联系方式</p>
+      <span class="name">丁晨晨</span>
+      <p>北京大学</p>
+      <p>欢迎就合作意向、资料汇交或专家审定直接联系。</p>
+    </div>
+    <div class="lines">
+      <div class="line"><span class="k">电子邮箱</span><a class="v" id="c-mail" href="mailto:chenchen.ding@pku.edu.cn">chenchen.ding@pku.edu.cn</a><button class="copy" type="button" data-copy="c-mail">复制</button></div>
+      <div class="line"><span class="k">手机 / 微信</span><span class="v" id="c-tel">185 1084 0408</span><button class="copy" type="button" data-copy="c-tel" data-raw="18510840408">复制</button></div>
+    </div>
+  </div>
+  <div class="fine">
+    <p>名录、代码与修订记录存档于项目私有仓库，按版本更新。本页内容为研究稿，数字可能随资料补充而变化，请勿外传或引用。</p>
+    <p>依托项目：国家自然科学基金青年科学基金项目（C 类）（32602379）；北京市自然科学基金青年 C 类项目（5264031）。</p>
+  </div>
+</div></footer>
+
+<div class="zoom" id="zoom" hidden><img id="zoom-img" alt=""></div>
+
+<script>
+const DATA = {"doubtful": [{"cls": "两栖纲", "cn": "泽陆蛙", "sci": "Fejervarya multistriata", "reason": "仅见环评名录", "basis": "仅见环评名录（含“资料”来源），缺少原始凭证", "rep": 0, "yrs": 0}, {"cls": "两栖纲", "cn": "大树蛙", "sci": "Zhangixalus dennysi", "reason": "无可追溯来源", "basis": "仅见早期候选名单，未检得可追溯原始来源", "rep": 0, "yrs": 0}, {"cls": "两栖纲", "cn": "豫南小鲵", "sci": "Hynobius yunanicus", "reason": "起源或鉴定待核", "basis": "新近描述物种，原始描述与河南凭证待核", "rep": 0, "yrs": 0}, {"cls": "爬行纲", "cn": "山溪后棱蛇", "sci": "Opisthotropis latouchii", "reason": "仅见环评名录", "basis": "仅见环评名录（含“资料”来源），缺少原始凭证", "rep": 0, "yrs": 0}, {"cls": "爬行纲", "cn": "丽纹华珊瑚蛇（中华珊瑚蛇）", "sci": "Sinomicrurus macclellandi", "reason": "无可追溯来源", "basis": "仅见早期候选名单，未检得可追溯原始来源", "rep": 0, "yrs": 0}, {"cls": "鸟纲", "cn": "毛脚鵟", "sci": "Buteo lagopus", "reason": "观测证据不足", "basis": "观鸟记录3次、跨1年，证据不足", "rep": 3, "yrs": 1}, {"cls": "鸟纲", "cn": "林雕", "sci": "Ictinaetus malaiensis", "reason": "观测证据不足", "basis": "观鸟记录3次、跨1年，证据不足", "rep": 3, "yrs": 1}, {"cls": "鸟纲", "cn": "丝绒海番鸭", "sci": "Melanitta fusca", "reason": "官方报道待正式发表", "basis": "仅见官方新闻报道（2025年1月孟津黄河湿地），数据集引文与原刊不符，待正式发表", "rep": 0, "yrs": 0}, {"cls": "鸟纲", "cn": "双角犀鸟", "sci": "Buceros bicornis", "reason": "观测证据不足", "basis": "观鸟记录1次、跨1年，证据不足", "rep": 1, "yrs": 1}, {"cls": "鸟纲", "cn": "短嘴金丝燕", "sci": "Aerodramus brevirostris", "reason": "观测证据不足", "basis": "观鸟记录2次、跨1年，证据不足", "rep": 2, "yrs": 1}, {"cls": "鸟纲", "cn": "青藏沙鸻", "sci": "Charadrius atrifrons", "reason": "观测证据不足", "basis": "观鸟记录4次、跨1年，证据不足", "rep": 4, "yrs": 1}, {"cls": "鸟纲", "cn": "蒙古沙鸻", "sci": "Charadrius mongolus", "reason": "观测证据不足", "basis": "观鸟记录4次、跨1年，证据不足", "rep": 4, "yrs": 1}, {"cls": "鸟纲", "cn": "小黑背银鸥", "sci": "Larus fuscus", "reason": "观测证据不足", "basis": "观鸟记录3次、跨1年，证据不足", "rep": 3, "yrs": 1}, {"cls": "鸟纲", "cn": "灰翅鸥", "sci": "Larus glaucescens", "reason": "观测证据不足", "basis": "观鸟记录1次、跨1年，证据不足", "rep": 1, "yrs": 1}, {"cls": "鸟纲", "cn": "小滨鹬", "sci": "Calidris minuta", "reason": "观测证据不足", "basis": "观鸟记录2次、跨1年，证据不足", "rep": 2, "yrs": 1}, {"cls": "鸟纲", "cn": "孤沙锥", "sci": "Gallinago solitaria", "reason": "观测证据不足", "basis": "观鸟记录1次、跨1年，证据不足", "rep": 1, "yrs": 1}, {"cls": "鸟纲", "cn": "斑尾塍鹬", "sci": "Limosa lapponica", "reason": "观测证据不足", "basis": "观鸟记录3次、跨1年，证据不足", "rep": 3, "yrs": 1}, {"cls": "鸟纲", "cn": "红喉山鹧鸪", "sci": "Arborophila rufogularis", "reason": "观测证据不足", "basis": "观鸟记录1次、跨1年，证据不足", "rep": 1, "yrs": 1}, {"cls": "鸟纲", "cn": "绿孔雀", "sci": "Pavo muticus", "reason": "观测证据不足", "basis": "观鸟记录1次、跨1年，证据不足", "rep": 1, "yrs": 1}, {"cls": "鸟纲", "cn": "白颈长尾雉", "sci": "Syrmaticus ellioti", "reason": "观测证据不足", "basis": "观鸟记录3次、跨1年，证据不足", "rep": 3, "yrs": 1}, {"cls": "鸟纲", "cn": "红喉雉鹑", "sci": "Tetraophasis obscurus", "reason": "观测证据不足", "basis": "观鸟记录1次、跨1年，证据不足", "rep": 1, "yrs": 1}, {"cls": "鸟纲", "cn": "黑颈鹤", "sci": "Grus nigricollis", "reason": "观测证据不足", "basis": "观鸟记录1次、跨1年，证据不足", "rep": 1, "yrs": 1}, {"cls": "鸟纲", "cn": "台湾雀鹛", "sci": "Alcippe morrisonia", "reason": "广义旧分类概念", "basis": "疑为广义旧分类概念，河南种群应为 Alcippe davidi（已收录）", "rep": 0, "yrs": 0}, {"cls": "鸟纲", "cn": "灰喉山椒鸟", "sci": "Pericrocotus solaris", "reason": "观测证据不足", "basis": "观鸟记录1次、跨1年，证据不足", "rep": 1, "yrs": 1}, {"cls": "鸟纲", "cn": "长尾缝叶莺", "sci": "Orthotomus sutorius", "reason": "观测证据不足", "basis": "观鸟记录1次、跨1年，证据不足", "rep": 1, "yrs": 1}, {"cls": "鸟纲", "cn": "喜山山鹪莺", "sci": "Prinia crinigera", "reason": "观测证据不足", "basis": "观鸟记录1次、跨1年，证据不足", "rep": 1, "yrs": 1}, {"cls": "鸟纲", "cn": "青藏喜鹊", "sci": "Pica bottanensis", "reason": "观测证据不足", "basis": "观鸟记录4次、跨1年，证据不足", "rep": 4, "yrs": 1}, {"cls": "鸟纲", "cn": "欧亚喜鹊", "sci": "Pica pica", "reason": "广义旧分类概念", "basis": "疑为广义旧分类概念，河南种群应为 Pica serica（已收录）", "rep": 3, "yrs": 2}, {"cls": "鸟纲", "cn": "黑尾地鸦", "sci": "Podoces hendersoni", "reason": "观测证据不足", "basis": "观鸟记录1次、跨1年，证据不足", "rep": 1, "yrs": 1}, {"cls": "鸟纲", "cn": "淡灰眉岩鹀", "sci": "Emberiza cia", "reason": "观测证据不足", "basis": "观鸟记录1次、跨1年，证据不足", "rep": 1, "yrs": 1}, {"cls": "鸟纲", "cn": "白腰朱顶雀", "sci": "Acanthis flammea", "reason": "观测证据不足", "basis": "观鸟记录13次、跨1年，证据不足", "rep": 13, "yrs": 1}, {"cls": "鸟纲", "cn": "松雀", "sci": "Pinicola enucleator", "reason": "观测证据不足", "basis": "观鸟记录1次、跨1年，证据不足", "rep": 1, "yrs": 1}, {"cls": "鸟纲", "cn": "青藏楔尾伯劳", "sci": "Lanius giganteus", "reason": "观测证据不足", "basis": "观鸟记录1次、跨1年，证据不足", "rep": 1, "yrs": 1}, {"cls": "鸟纲", "cn": "灰背伯劳", "sci": "Lanius tephronotus", "reason": "观测证据不足", "basis": "观鸟记录3次、跨1年，证据不足", "rep": 3, "yrs": 1}, {"cls": "鸟纲", "cn": "灰翅噪鹛", "sci": "Ianthocincla cineracea", "reason": "观测证据不足", "basis": "观鸟记录2次、跨1年，证据不足", "rep": 2, "yrs": 1}, {"cls": "鸟纲", "cn": "眼纹噪鹛", "sci": "Ianthocincla ocellata", "reason": "观测证据不足", "basis": "观鸟记录1次、跨1年，证据不足", "rep": 1, "yrs": 1}, {"cls": "鸟纲", "cn": "棕噪鹛", "sci": "Pterorhinus berthemyi", "reason": "观测证据不足", "basis": "观鸟记录1次、跨1年，证据不足", "rep": 1, "yrs": 1}, {"cls": "鸟纲", "cn": "北短翅蝗莺", "sci": "Locustella davidi", "reason": "观测证据不足", "basis": "观鸟记录6次、跨1年，证据不足", "rep": 6, "yrs": 1}, {"cls": "鸟纲", "cn": "斑胸短翅蝗莺", "sci": "Locustella thoracica", "reason": "观测证据不足", "basis": "观鸟记录5次、跨1年，证据不足", "rep": 5, "yrs": 1}, {"cls": "鸟纲", "cn": "东方寿带", "sci": "Terpsiphone affinis", "reason": "观测证据不足", "basis": "观鸟记录2次、跨2年，证据不足", "rep": 2, "yrs": 2}, {"cls": "鸟纲", "cn": "印度寿带", "sci": "Terpsiphone paradisi", "reason": "观测证据不足", "basis": "观鸟记录1次、跨1年，证据不足", "rep": 1, "yrs": 1}, {"cls": "鸟纲", "cn": "布氏鹨", "sci": "Anthus godlewskii", "reason": "观测证据不足", "basis": "观鸟记录4次、跨1年，证据不足", "rep": 4, "yrs": 1}, {"cls": "鸟纲", "cn": "北鹨", "sci": "Anthus gustavi", "reason": "观测证据不足", "basis": "观鸟记录1次、跨1年，证据不足", "rep": 1, "yrs": 1}, {"cls": "鸟纲", "cn": "草地鹨", "sci": "Anthus pratensis", "reason": "起源或鉴定待核", "basis": "观鸟记录5次但仅2县且不在范围图内，起源或鉴定待核", "rep": 5, "yrs": 2}, {"cls": "鸟纲", "cn": "东方田鹨", "sci": "Anthus rufulus", "reason": "观测证据不足", "basis": "观鸟记录1次、跨1年，证据不足", "rep": 1, "yrs": 1}, {"cls": "鸟纲", "cn": "黑喉歌鸲", "sci": "Calliope obscura", "reason": "观测证据不足", "basis": "观鸟记录33次、跨1年，证据不足", "rep": 33, "yrs": 1}, {"cls": "鸟纲", "cn": "斑背燕尾", "sci": "Enicurus maculatus", "reason": "观测证据不足", "basis": "观鸟记录1次、跨1年，证据不足", "rep": 1, "yrs": 1}, {"cls": "鸟纲", "cn": "灰背燕尾", "sci": "Enicurus schistaceus", "reason": "观测证据不足", "basis": "观鸟记录6次、跨1年，证据不足", "rep": 6, "yrs": 1}, {"cls": "鸟纲", "cn": "铜蓝鹟", "sci": "Eumyias thalassinus", "reason": "观测证据不足", "basis": "观鸟记录12次、跨1年，证据不足", "rep": 12, "yrs": 1}, {"cls": "鸟纲", "cn": "红胸姬鹟", "sci": "Ficedula parva", "reason": "无可追溯来源", "basis": "仅见早期候选名单，未检得可追溯原始来源", "rep": 0, "yrs": 0}, {"cls": "鸟纲", "cn": "栗腹歌鸲", "sci": "Larvivora brunnea", "reason": "起源或鉴定待核", "basis": "观鸟记录7次但仅2县且不在范围图内，起源或鉴定待核", "rep": 7, "yrs": 2}, {"cls": "鸟纲", "cn": "白尾蓝地鸲", "sci": "Myiomela leucura", "reason": "观测证据不足", "basis": "观鸟记录1次、跨1年，证据不足", "rep": 1, "yrs": 1}, {"cls": "鸟纲", "cn": "棕腹仙鹟", "sci": "Niltava sundara", "reason": "观测证据不足", "basis": "观鸟记录1次、跨1年，证据不足", "rep": 1, "yrs": 1}, {"cls": "鸟纲", "cn": "赭红尾鸲", "sci": "Phoenicurus ochruros", "reason": "观测证据不足", "basis": "观鸟记录5次、跨1年，证据不足", "rep": 5, "yrs": 1}, {"cls": "鸟纲", "cn": "白喉红尾鸲", "sci": "Phoenicurus schisticeps", "reason": "观测证据不足", "basis": "观鸟记录1次、跨1年，证据不足", "rep": 1, "yrs": 1}, {"cls": "鸟纲", "cn": "白斑黑石䳭", "sci": "Saxicola caprata", "reason": "观测证据不足", "basis": "观鸟记录1次、跨1年，证据不足", "rep": 1, "yrs": 1}, {"cls": "鸟纲", "cn": "黑喉石䳭", "sci": "Saxicola maurus", "reason": "观测证据不足", "basis": "观鸟记录2次、跨1年，证据不足", "rep": 2, "yrs": 1}, {"cls": "鸟纲", "cn": "祁连山蓝尾鸲", "sci": "Tarsiger albocoeruleus", "reason": "观测证据不足", "basis": "观鸟记录1次、跨1年，证据不足", "rep": 1, "yrs": 1}, {"cls": "鸟纲", "cn": "棕头雀鹛", "sci": "Fulvetta ruficapilla", "reason": "观测证据不足", "basis": "观鸟记录1次、跨1年，证据不足", "rep": 1, "yrs": 1}, {"cls": "鸟纲", "cn": "点胸鸦雀", "sci": "Paradoxornis guttaticollis", "reason": "官方报道待正式发表", "basis": "观鸟记录1次；2024年官方报道伏牛山新记录，待正式发表", "rep": 1, "yrs": 1}, {"cls": "鸟纲", "cn": "黄颊山雀", "sci": "Machlolophus spilonotus", "reason": "观测证据不足", "basis": "观鸟记录1次、跨1年，证据不足", "rep": 1, "yrs": 1}, {"cls": "鸟纲", "cn": "欧亚大山雀", "sci": "Parus major", "reason": "广义旧分类概念", "basis": "疑为广义旧分类概念，河南种群应为 Parus minor（已收录）", "rep": 0, "yrs": 0}, {"cls": "鸟纲", "cn": "家麻雀", "sci": "Passer domesticus", "reason": "观测证据不足", "basis": "观鸟记录6次、跨1年，证据不足", "rep": 6, "yrs": 1}, {"cls": "鸟纲", "cn": "石雀", "sci": "Petronia petronia", "reason": "观测证据不足", "basis": "观鸟记录1次、跨1年，证据不足", "rep": 1, "yrs": 1}, {"cls": "鸟纲", "cn": "黄腹柳莺", "sci": "Phylloscopus affinis", "reason": "观测证据不足", "basis": "观鸟记录1次、跨1年，证据不足", "rep": 1, "yrs": 1}, {"cls": "鸟纲", "cn": "金眶鹟莺", "sci": "Phylloscopus burkii", "reason": "观测证据不足", "basis": "观鸟记录4次、跨1年，证据不足", "rep": 4, "yrs": 1}, {"cls": "鸟纲", "cn": "华南冠纹柳莺", "sci": "Phylloscopus goodsoni", "reason": "观测证据不足", "basis": "观鸟记录5次、跨1年，证据不足", "rep": 5, "yrs": 1}, {"cls": "鸟纲", "cn": "白眶鹟莺", "sci": "Phylloscopus intermedius", "reason": "无可追溯来源", "basis": "仅见早期候选名单，未检得可追溯原始来源", "rep": 0, "yrs": 0}, {"cls": "鸟纲", "cn": "峨眉鹟莺", "sci": "Phylloscopus omeiensis", "reason": "观测证据不足", "basis": "观鸟记录23次、跨1年，证据不足", "rep": 23, "yrs": 1}, {"cls": "鸟纲", "cn": "橙斑翅柳莺", "sci": "Phylloscopus pulcher", "reason": "观测证据不足", "basis": "观鸟记录4次、跨1年，证据不足", "rep": 4, "yrs": 1}, {"cls": "鸟纲", "cn": "西南冠纹柳莺", "sci": "Phylloscopus reguloides", "reason": "广义旧分类概念", "basis": "疑为广义旧分类概念，河南种群应为 Phylloscopus claudiae（已收录）", "rep": 0, "yrs": 0}, {"cls": "鸟纲", "cn": "林柳莺", "sci": "Phylloscopus sibilatrix", "reason": "观测证据不足", "basis": "观鸟记录1次、跨1年，证据不足", "rep": 1, "yrs": 1}, {"cls": "鸟纲", "cn": "白冠攀雀", "sci": "Remiz coronatus", "reason": "观测证据不足", "basis": "观鸟记录1次、跨1年，证据不足", "rep": 1, "yrs": 1}, {"cls": "鸟纲", "cn": "异色树莺", "sci": "Horornis flavolivaceus", "reason": "观测证据不足", "basis": "观鸟记录1次、跨1年，证据不足", "rep": 1, "yrs": 1}, {"cls": "鸟纲", "cn": "家八哥", "sci": "Acridotheres tristis", "reason": "观测证据不足", "basis": "观鸟记录1次、跨1年，证据不足", "rep": 1, "yrs": 1}, {"cls": "鸟纲", "cn": "鹩哥", "sci": "Gracula religiosa", "reason": "观测证据不足", "basis": "观鸟记录1次、跨1年，证据不足", "rep": 1, "yrs": 1}, {"cls": "鸟纲", "cn": "黑喉鸫", "sci": "Turdus atrogularis", "reason": "观测证据不足", "basis": "观鸟记录19次、跨1年，证据不足", "rep": 19, "yrs": 1}, {"cls": "鸟纲", "cn": "褐头鸫", "sci": "Turdus feae", "reason": "观测证据不足", "basis": "观鸟记录2次、跨2年，证据不足", "rep": 2, "yrs": 2}, {"cls": "鸟纲", "cn": "欧乌鸫", "sci": "Turdus merula", "reason": "广义旧分类概念", "basis": "疑为广义旧分类概念，河南种群应为 Turdus mandarinus（已收录）", "rep": 1, "yrs": 1}, {"cls": "鸟纲", "cn": "小虎斑地鸫", "sci": "Zoothera dauma", "reason": "广义旧分类概念", "basis": "疑为广义旧分类概念，河南种群应为 Zoothera aurea（已收录）", "rep": 0, "yrs": 0}, {"cls": "鸟纲", "cn": "朱鹀", "sci": "Urocynchramus pylzowi", "reason": "观测证据不足", "basis": "观鸟记录1次、跨1年，证据不足", "rep": 1, "yrs": 1}, {"cls": "鸟纲", "cn": "日本绣眼鸟", "sci": "Zosterops japonicus", "reason": "广义旧分类概念", "basis": "疑为广义旧分类概念，河南种群应为 Zosterops simplex（已收录）", "rep": 0, "yrs": 0}, {"cls": "鸟纲", "cn": "灰腹绣眼鸟", "sci": "Zosterops palpebrosus", "reason": "观测证据不足", "basis": "观鸟记录1次、跨1年，证据不足", "rep": 1, "yrs": 1}, {"cls": "鸟纲", "cn": "大红鹳", "sci": "Phoenicopterus roseus", "reason": "起源或鉴定待核", "basis": "观鸟记录44次但仅1县且不在范围图内，起源或鉴定待核", "rep": 44, "yrs": 2}, {"cls": "鸟纲", "cn": "白背啄木鸟", "sci": "Dendrocopos leucotos", "reason": "观测证据不足", "basis": "观鸟记录1次、跨1年，证据不足", "rep": 1, "yrs": 1}, {"cls": "哺乳纲", "cn": "鼬獾", "sci": "Melogale moschata", "reason": "仅见环评名录", "basis": "仅见环评名录（含“资料”来源），缺少原始凭证", "rep": 0, "yrs": 0}, {"cls": "哺乳纲", "cn": "梅花鹿", "sci": "Cervus nippon", "reason": "起源或鉴定待核", "basis": "野化/放归种群，原生状态待核", "rep": 0, "yrs": 0}, {"cls": "哺乳纲", "cn": "大蹄蝠", "sci": "Hipposideros armiger", "reason": "仅见环评名录", "basis": "仅见环评名录（含“资料”来源），缺少原始凭证", "rep": 0, "yrs": 0}, {"cls": "哺乳纲", "cn": "大菊头蝠", "sci": "Rhinolophus perniger", "reason": "无可追溯来源", "basis": "仅见早期候选名单，未检得可追溯原始来源", "rep": 0, "yrs": 0}, {"cls": "哺乳纲", "cn": "华南兔", "sci": "Lepus sinensis", "reason": "仅见环评名录", "basis": "仅见环评名录（含“资料”来源），缺少原始凭证", "rep": 0, "yrs": 0}], "repeated": [{"cn": "乌鹟", "sci": "Muscicapa sibirica", "rep": 151, "yrs": 8, "cty": 20, "rng": true}, {"cn": "斑文鸟", "sci": "Lonchura punctulata", "rep": 142, "yrs": 8, "cty": 7, "rng": false}, {"cn": "赤颈鸫", "sci": "Turdus ruficollis", "rep": 64, "yrs": 5, "cty": 16, "rng": false}, {"cn": "红颈苇鹀", "sci": "Emberiza yessoensis", "rep": 49, "yrs": 5, "cty": 11, "rng": true}, {"cn": "灰蓝姬鹟", "sci": "Ficedula tricolor", "rep": 26, "yrs": 3, "cty": 4, "rng": false}, {"cn": "粉红胸鹨", "sci": "Anthus roseatus", "rep": 24, "yrs": 3, "cty": 7, "rng": true}, {"cn": "黑喉红尾鸲", "sci": "Phoenicurus hodgsoni", "rep": 24, "yrs": 2, "cty": 8, "rng": true}, {"cn": "短趾百灵", "sci": "Alaudala cheleensis", "rep": 21, "yrs": 7, "cty": 5, "rng": true}, {"cn": "灰眉岩鹀", "sci": "Emberiza godlewskii", "rep": 19, "yrs": 4, "cty": 11, "rng": true}, {"cn": "中杜鹃", "sci": "Cuculus saturatus", "rep": 18, "yrs": 2, "cty": 7, "rng": true}, {"cn": "蓝额红尾鸲", "sci": "Phoenicurus frontalis", "rep": 11, "yrs": 2, "cty": 6, "rng": false}, {"cn": "灰林䳭", "sci": "Saxicola ferreus", "rep": 11, "yrs": 4, "cty": 3, "rng": true}, {"cn": "铁爪鹀", "sci": "Calcarius lapponicus", "rep": 10, "yrs": 2, "cty": 4, "rng": true}, {"cn": "橙胸姬鹟", "sci": "Ficedula strophiata", "rep": 10, "yrs": 2, "cty": 2, "rng": true}, {"cn": "黑领椋鸟", "sci": "Gracupica nigricollis", "rep": 9, "yrs": 4, "cty": 3, "rng": false}, {"cn": "赤胸啄木鸟", "sci": "Dryobates cathpharius", "rep": 9, "yrs": 3, "cty": 4, "rng": false}, {"cn": "灰树鹊", "sci": "Dendrocitta formosae", "rep": 8, "yrs": 2, "cty": 3, "rng": true}, {"cn": "棕腹大仙鹟", "sci": "Niltava davidi", "rep": 8, "yrs": 3, "cty": 5, "rng": false}, {"cn": "栗腹矶鸫", "sci": "Monticola rufiventris", "rep": 7, "yrs": 3, "cty": 1, "rng": true}, {"cn": "白腹蓝鹟", "sci": "Cyanoptila cyanomelana", "rep": 6, "yrs": 2, "cty": 5, "rng": false}, {"cn": "小白腰雨燕", "sci": "Apus nipalensis", "rep": 5, "yrs": 3, "cty": 4, "rng": false}, {"cn": "芦鹀", "sci": "Emberiza schoeniclus", "rep": 4, "yrs": 3, "cty": 3, "rng": true}, {"cn": "小燕尾", "sci": "Enicurus scouleri", "rep": 4, "yrs": 2, "cty": 1, "rng": true}, {"cn": "领岩鹨", "sci": "Prunella collaris", "rep": 4, "yrs": 2, "cty": 3, "rng": true}], "comp": [{"class_name": "Amphibia", "class_cn": "两栖纲", "orders": 2, "families": 10, "genera": 23, "species": 34, "national_species": 767, "share_national": 4.43, "database": 33, "new": 1, "doubtful": 3, "removed_or_revised": 0, "natl_I": 0, "natl_II": 8, "rl_threatened": 8, "rl_assessed": 31, "iucn_threatened": 4, "endemic": 16, "with_county_records": 12}, {"class_name": "Reptilia", "class_cn": "爬行纲", "orders": 2, "families": 11, "genera": 31, "species": 47, "national_species": 728, "share_national": 6.46, "database": 46, "new": 1, "doubtful": 2, "removed_or_revised": 0, "natl_I": 0, "natl_II": 1, "rl_threatened": 9, "rl_assessed": 43, "iucn_threatened": 2, "endemic": 11, "with_county_records": 8}, {"class_name": "Aves", "class_cn": "鸟纲", "orders": 20, "families": 80, "genera": 255, "species": 495, "national_species": 1505, "share_national": 32.89, "database": 465, "new": 30, "doubtful": 80, "removed_or_revised": 0, "natl_I": 24, "natl_II": 91, "rl_threatened": 41, "rl_assessed": 464, "iucn_threatened": 33, "endemic": 9, "with_county_records": 461}, {"class_name": "Mammalia", "class_cn": "哺乳纲", "orders": 9, "families": 26, "genera": 61, "species": 79, "national_species": 736, "share_national": 10.73, "database": 57, "new": 22, "doubtful": 5, "removed_or_revised": 3, "natl_I": 5, "natl_II": 8, "rl_threatened": 15, "rl_assessed": 70, "iucn_threatened": 7, "endemic": 13, "with_county_records": 32}, {"class_name": "Total", "class_cn": "合计", "orders": 33, "families": 127, "genera": 370, "species": 655, "national_species": 3736, "share_national": 17.53, "database": 601, "new": 54, "doubtful": 90, "removed_or_revised": 3, "natl_I": 29, "natl_II": 108, "rl_threatened": 73, "rl_assessed": 608, "iucn_threatened": 46, "endemic": 49, "with_county_records": 513}]};
+const FIGS = [{"id": "图1", "src": "img/Fig1_study_area.webp", "zh": "河南省地形、水系、自然保护区、市级行政单元与主要地貌单元。底图为WorldClim 2.1约1 km分辨率高程数据叠加山体阴影；粗线为省界，深灰线为市级单元界线，白色细线为县级单元界线；紫色、深蓝色、青色和灰蓝色线分别为长江、黄河、淮河和海河水系的主要河流(干流加粗)；暗红色面为自然保护区(按空间筛选21个面，原图层不完整且部分名称与级别字段不一致，故未标注名称和级别)；左上角鹰眼图示河南省在中国的位置。地貌单元名称位置为示意。自然保护区边界引自China Nature Reserve Specimen Resource Sharing Platform(2024)。水系数据来自OpenStreetMap(2026年11月4日提取)；鹰眼图及周边省份依据标准地图服务系统底图，审图号GS(2024)0650号；河南县级行政底图原始发布来源待核。", "en": "Topography, drainage, nature reserves, municipal units and major landforms of Henan Province. Elevation is from WorldClim 2.1 (c. 1 km) with hillshading. Thick black lines show the provincial boundary, dark grey lines municipal units and thin white lines county-level units; purple, dark blue, teal and grey-blue lines show major rivers of the Yangtze, Yellow, Huai and Hai systems, respectively (main stems thicker). Dark red polygons are nature reserves (21 polygons selected spatially; the source layer is incomplete and some name and level fields are inconsistent, so they are not labelled). The inset shows the location of Henan in China. Nature-reserve boundaries are from China Nature Reserve Specimen Resource Sharing Platform (2024). Landform labels are approximate. River data: OpenStreetMap (extracted 4 November 2026); inset and neighbouring provinces follow the standard map service base map, approval no. GS(2024)0650.", "alt": "河南省地形、水系、自然保护区、市级行政单元与主要地貌单元"}, {"id": "图2", "src": "img/Fig2_history.webp", "zh": "河南省陆生脊椎动物编目、调查与监测的历史进程及物种数口径比较。(a)各阶段代表性工作与学者(非穷尽列举，1990年前时间轴压缩)；(b)各纲物种数在不同来源中的比较，浅色段表示加入存疑分类单元后的范围；(c)全省物种总数的来源比较，括号内为存疑分类单元数。各来源的分类体系和收录标准不同，不构成物种数的时间序列。", "en": "History of inventory, survey and monitoring of terrestrial vertebrates in Henan, and comparison of species totals among sources. (a) Representative work and contributors by stage (not exhaustive; axis compressed before 1990). (b) Class totals across sources; pale bars extend to totals including doubtful taxa. (c) Provincial totals across sources; the number in parentheses denotes doubtful taxa. Sources differ in taxonomy and inclusion criteria and do not form a time series of richness.", "alt": "河南省陆生脊椎动物编目、调查与监测的历史进程及物种数口径比较"}, {"id": "图3", "src": "img/Fig3_reconciliation.webp", "zh": "名称归并与证据分级流程(a)及各纲证据等级构成(b)。(b)以参与分级的分类单元(含存疑)为分母，n为各纲分类单元数。", "en": "Name reconciliation and evidence-grading workflow (a) and composition of evidence grades by class (b). In (b), percentages are based on all graded taxa including doubtful ones; n is the number of taxa per class.", "alt": "名称归并与证据分级流程(a)及各纲证据等级构成(b)"}, {"id": "图4", "src": "img/Fig4_composition.webp", "zh": "河南省陆生脊椎动物的物种组成与保护状况。(a)各纲物种数及占全国同纲物种比例；(b)国家重点保护等级、中国生物多样性红色名录和IUCN红色名录等级构成，右侧数字为重点保护或受威胁(CR、EN、VU)物种数，“未匹配”表示未匹配到状态字段；(c)目级物种组成(平方根尺度)。", "en": "Species composition and conservation status of terrestrial vertebrates in Henan. (a) Number of species per class and share of the national total. (b) Composition by national protection class, China Biodiversity Red List and IUCN Red List category; numbers on the right give protected or threatened (CR, EN, VU) species, and \"not matched\" denotes missing status fields. (c) Species per order (square-root scale).", "alt": "河南省陆生脊椎动物的物种组成与保护状况"}, {"id": "图5", "src": "img/Fig5_county_records.webp", "zh": "河南省陆生脊椎动物县级可定位记录物种数。(a)四纲合计；(b)鸟纲；(c)两栖纲；(d)爬行纲；(e)哺乳纲；(f)各纲有记录县级单元占157个单元的比例。浅灰色表示目前无可映射记录，不代表物种不存在；各纲分级尺度不同。", "en": "Number of species with geographically linked county-level records in Henan. (a) All classes; (b) birds; (c) amphibians; (d) reptiles; (e) mammals; (f) share of the 157 county units with records for each class. Light grey indicates no mappable record, not confirmed absence; class-specific scales differ.", "alt": "河南省陆生脊椎动物县级可定位记录物种数"}, {"id": "附图S1", "src": "img/FigS1_records_vs_ranges.webp", "zh": "县级可定位记录名称与原生现存分布范围图推定分布的比较。(a, c, e, g)两栖纲、爬行纲、鸟纲和哺乳纲的可定位记录名称数；(b, d, f, h)相应各纲与县级单元相交的范围图分类单元数。同一纲左右两图共用色阶，浅灰表示无可映射记录。记录层为v8全记录层，不限于本名录收录物种；范围图相交不证明物种在县域实际存在，仅用于识别补充调查与馆藏回查的线索。范围图为IUCN本地快照及BirdLife International/HBW鸟类分布图，发布版本待核。", "en": "County-level record names versus native, extant range-map overlaps. (a, c, e, g) Numbers of geographically linked record names for amphibians, reptiles, birds and mammals; (b, d, f, h) numbers of range-map taxa overlapping each county unit for the same classes. Paired panels share a colour scale; light grey indicates no mappable record. The record layer is the full v8 layer and is not restricted to listed species. Range overlaps indicate inferred distributions only and serve to prioritise surveys and specimen searches. Range maps: local IUCN snapshot and BirdLife International/HBW (versions to be confirmed).", "alt": "县级可定位记录名称与原生现存分布范围图推定分布的比较"}, {"id": "附图S2", "src": "img/FigS2_bird_seasons.webp", "zh": "鸟类范围图计数的季节与相交阈值敏感性。(a)全年并集(seasonal 1—4)；(b)繁殖期(留居与繁殖范围)；(c)非繁殖期(留居与非繁殖范围)；(d—f)全年并集分别按正面积相交、相交面积不少于1 km²和不少于县域面积5%计数。所有面板仅含原生现存范围(presence = 1, origin = 1)并共用色阶；1 km²和5%为分析阈值，不是IUCN收录条件。", "en": "Seasonal and overlap-threshold sensitivity of bird range-map counts. (a) Year-round union (seasonal codes 1–4); (b) breeding (resident and breeding ranges); (c) non-breeding (resident and non-breeding ranges); (d–f) year-round counts using any overlap, overlap of at least 1 km² and overlap of at least 5% of county area. All panels include native, extant ranges only (presence = 1, origin = 1) and share one colour scale; the 1 km² and 5% thresholds are analytical settings, not IUCN inclusion criteria.", "alt": "鸟类范围图计数的季节与相交阈值敏感性"}];
+const CLS = [
+  {k: "Amphibia", cn: "两栖纲", c: "var(--amph)"}, {k: "Reptilia", cn: "爬行纲", c: "var(--rept)"},
+  {k: "Aves", cn: "鸟纲", c: "var(--aves)"}, {k: "Mammalia", cn: "哺乳纲", c: "var(--mamm)"}
+];
+const COUNTY = {Amphibia: 5, Reptilia: 3, Aves: 131, Mammalia: 9};
+const esc = s => String(s ?? "").replace(/[&<>"]/g, ch => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[ch]));
+
+// class rows drawn to one scale (birds = max)
+const comp = Object.fromEntries(DATA.comp.map(r => [r.class_name, r]));
+const maxSp = Math.max(...CLS.map(c => comp[c.k].species));
+document.getElementById("classes").innerHTML = CLS.map(c => {
+  const r = comp[c.k], sp = r.species, ct = COUNTY[c.k];
+  return `<div class="crow"><div class="name">${c.cn}<i>${c.k}</i></div>
+    <div class="bars"><div class="bar"><span style="width:${(sp / maxSp * 100).toFixed(1)}%;background:${c.c}"></span></div>
+    <div class="bar cty"><span style="width:${(ct / 157 * 100).toFixed(1)}%;background:${c.c}"></span></div></div>
+    <div class="val">${sp} 种<br>${ct}/157 县</div></div>`;
+}).join("");
+
+// figure plates
+document.getElementById("plates").innerHTML = FIGS.map(f => `<figure>
+  <button class="plate" type="button" data-src="${f.src}" aria-label="放大 ${esc(f.id)}"><img src="${f.src}" alt="${esc(f.alt)}" loading="lazy"></button>
+  <figcaption><b>${esc(f.id)}</b> ${esc(f.zh)}<span class="en">${esc(f.en)}</span></figcaption></figure>`).join("");
+const zoom = document.getElementById("zoom"), zimg = document.getElementById("zoom-img");
+document.getElementById("plates").addEventListener("click", e => {
+  const b = e.target.closest(".plate"); if (!b) return;
+  zimg.src = b.dataset.src; zimg.alt = b.querySelector("img").alt; zoom.hidden = false;
+});
+zoom.addEventListener("click", () => { zoom.hidden = true; });
+document.addEventListener("keydown", e => { if (e.key === "Escape") zoom.hidden = true; });
+
+// repeated-observation table
+document.getElementById("rep-body").innerHTML = DATA.repeated.map(r => `<tr><td>${esc(r.cn)}</td><td class="sci">${esc(r.sci)}</td>
+  <td class="n">${r.rep}</td><td class="n">${r.yrs}</td><td class="n">${r.cty}</td><td>${r.rng ? "是" : "否"}</td></tr>`).join("");
+
+// doubtful table with filters
+const reasons = [...new Set(DATA.doubtful.map(d => d.reason))];
+const fr = document.getElementById("f-reason");
+reasons.forEach(r => { const o = document.createElement("option"); o.textContent = r; fr.appendChild(o); });
+function renderDbt() {
+  const c = document.getElementById("f-class").value, r = fr.value, q = document.getElementById("f-q").value.trim().toLowerCase();
+  const rows = DATA.doubtful.filter(d => (!c || d.cls === c) && (!r || d.reason === r) &&
+    (!q || (d.cn + " " + d.sci).toLowerCase().includes(q)));
+  document.getElementById("dbt-count").textContent = `显示 ${rows.length} / ${DATA.doubtful.length} 个分类单元`;
+  document.getElementById("dbt-body").innerHTML = rows.map(d => `<tr><td>${esc(d.cls)}</td><td>${esc(d.cn)}</td>
+    <td class="sci">${esc(d.sci)}</td><td><span class="pill">${esc(d.reason)}</span></td><td>${esc(d.basis)}</td></tr>`).join("");
+}
+["f-class", "f-reason", "f-q"].forEach(id => document.getElementById(id).addEventListener("input", renderDbt));
+renderDbt();
+
+
+// copy contact details
+document.querySelectorAll(".copy").forEach(b => b.addEventListener("click", async () => {
+  const el = document.getElementById(b.dataset.copy), text = b.dataset.raw || el.textContent.trim();
+  try { await navigator.clipboard.writeText(text); b.textContent = "已复制"; }
+  catch (e) { const r = document.createRange(); r.selectNodeContents(el); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); b.textContent = "已选中"; }
+  setTimeout(() => { b.textContent = "复制"; }, 1600);
+}));
+
+// tabs
+const tabs = [["tab-rep", "panel-rep"], ["tab-dbt", "panel-dbt"]];
+tabs.forEach(([t]) => document.getElementById(t).addEventListener("click", () => {
+  tabs.forEach(([tt, pp]) => { const on = tt === t; document.getElementById(tt).setAttribute("aria-selected", on); document.getElementById(pp).hidden = !on; });
+}));
+</script>
+
+</body>
+</html>
