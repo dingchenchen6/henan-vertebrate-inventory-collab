@@ -4,6 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="河南省陆生脊椎动物名录更新与县级分布：协作说明、资料需求与登记方式。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232F6B5F'/%3E%3Ctext x='16' y='23' font-size='19' text-anchor='middle' fill='white' font-family='serif'%3E%E8%B1%AB%3C/text%3E%3C/svg%3E">
+<meta name="theme-color" content="#2F6B5F">
+<meta name="robots" content="noindex, nofollow">
 <style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
 <body>
@@ -222,16 +225,123 @@ footer.site { border-top: 1px solid var(--rule); background: var(--surface); pad
 .dl .btn { text-decoration: none }
 a.v { color: var(--ink); text-decoration: none }
 @media (max-width: 760px) { .reg-go { grid-template-columns: minmax(0, 1fr) } .qr { justify-items: start } }
+
+/* ---------- design layer (site_chrome.py) ---------- */
+:root { --on-accent: #FFFFFF; --radius: 8px; --shadow: 0 1px 2px rgba(20, 30, 32, .05), 0 4px 14px rgba(20, 30, 32, .05) }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --on-accent: #0E1A17; --shadow: none } }
+:root[data-theme="dark"] { --on-accent: #0E1A17; --shadow: none }
+html { scroll-padding-top: calc(76px + env(safe-area-inset-top, 0px)) }
+html:has(.subnav) { scroll-padding-top: calc(118px + env(safe-area-inset-top, 0px)) }
+body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility }
+::selection { background: color-mix(in srgb, var(--accent) 22%, transparent) }
+
+/* header */
+.sitebar { position: sticky; top: 0; z-index: 8; padding-top: env(safe-area-inset-top, 0px); background: color-mix(in srgb, var(--surface) 92%, transparent); backdrop-filter: saturate(1.3) blur(8px); -webkit-backdrop-filter: saturate(1.3) blur(8px); border-bottom: 1px solid var(--rule) }
+.sitebar > .wrap { display: flex; align-items: center; gap: 8px 24px; min-height: 60px }
+.brand { display: flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; min-width: 0 }
+.brand svg { flex: none }
+.brand b { display: block; font-family: var(--serif); font-size: 1.02rem; line-height: 1.25; white-space: nowrap }
+.brand small { display: block; font-size: 0.68rem; color: var(--muted); letter-spacing: 0.04em; line-height: 1.2 }
+.mainnav { display: flex; gap: 2px; margin-left: auto; overflow-x: auto; scrollbar-width: none }
+.mainnav::-webkit-scrollbar, .subnav .wrap::-webkit-scrollbar { display: none }
+.mainnav a { padding: 6px 12px; border-radius: 6px; color: var(--muted); text-decoration: none; font-size: 0.9rem; white-space: nowrap }
+.mainnav a:hover { color: var(--ink); background: var(--chip) }
+.mainnav a[aria-current="page"] { color: var(--accent); background: color-mix(in srgb, var(--accent) 11%, transparent); font-weight: 600 }
+.subnav { border-top: 1px solid var(--rule) }
+.subnav .wrap { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; min-height: 42px; align-items: center }
+.subnav a { font-size: 0.82rem; color: var(--muted); text-decoration: none; padding: 3px 11px; border-radius: 999px; white-space: nowrap }
+.subnav a:hover { color: var(--ink) }
+.subnav a.on { color: var(--ink); background: var(--chip); font-weight: 600 }
+body::before { display: none }
+@media (max-width: 760px) {
+  .sitebar > .wrap { flex-wrap: wrap; gap: 0; padding-top: 8px }
+  .brand small { display: none }
+  .mainnav { margin: 0 -6px; width: calc(100% + 12px); padding-block: 4px 6px }
+  .mainnav a { padding: 5px 9px; font-size: 0.86rem }
+  html { scroll-padding-top: calc(108px + env(safe-area-inset-top, 0px)) }
+  html:has(.subnav) { scroll-padding-top: calc(150px + env(safe-area-inset-top, 0px)) }
+}
+
+/* hero */
+header.top { background: radial-gradient(120% 140% at 100% 0%, color-mix(in srgb, var(--accent) 9%, transparent), transparent 55%), var(--bg) }
+h1 .nb { display: inline-block }
+.lede { font-size: 1.02rem }
+
+/* surfaces, buttons, tables */
+.btn { border-radius: 6px; background: var(--accent); border-color: var(--accent); color: var(--on-accent); font-weight: 500; transition: filter .15s, background .15s; text-decoration: none; display: inline-block }
+.btn:hover { filter: brightness(1.07) }
+.btn.ghost { background: var(--surface); color: var(--ink); border-color: var(--rule) }
+.btn.ghost:hover { border-color: var(--accent); color: var(--accent); filter: none }
+.tbl, .asset, .partner, .fund, .reg-go, .card2, .mapbox, form.card, .invite { border-radius: var(--radius) }
+.tbl { box-shadow: var(--shadow) }
+.partner, .asset { box-shadow: var(--shadow) }
+th { background: color-mix(in srgb, var(--chip) 60%, var(--surface)) }
+section > .wrap > h2 { margin-bottom: 14px }
+section > .wrap > h2 + .read, section > .wrap > h2 + p { color: var(--ink) }
+.chip { border: 1px solid transparent }
+.chip.warn { background: color-mix(in srgb, var(--warn) 12%, transparent); border-color: color-mix(in srgb, var(--warn) 30%, transparent) }
+.pill { border: 1px solid color-mix(in srgb, currentColor 18%, transparent) }
+
+/* three ways to take part (home) */
+.join { background: var(--surface) }
+.ways { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 16px; margin-top: 18px }
+.way { display: grid; gap: 8px; align-content: start; padding: 20px 20px 18px; border: 1px solid var(--rule); border-radius: var(--radius); background: var(--bg); color: var(--ink); text-decoration: none; transition: border-color .15s, transform .15s, box-shadow .15s }
+.way:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: var(--shadow) }
+.way .no { font-family: var(--mono); font-size: 0.78rem; color: var(--accent); letter-spacing: 0.08em }
+.way h3 { font-size: 1.12rem }
+.way p { font-size: 0.9rem; color: var(--muted) }
+.way .go { margin-top: 4px; font-size: 0.9rem; font-weight: 600; color: var(--accent) }
+.alt { margin-top: 16px; font-size: 0.86rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: 4px 16px }
+
+/* how-to strip (checklist, atlas) */
+ol.howto { list-style: none; counter-reset: hw; margin: 20px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 10px }
+ol.howto li { counter-increment: hw; display: grid; grid-template-columns: 2em minmax(0, 1fr); gap: 2px 8px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius); font-size: 0.86rem; align-content: start }
+ol.howto li::before { content: counter(hw); grid-row: span 2; width: 1.7em; height: 1.7em; border-radius: 50%; display: grid; place-items: center; background: var(--accent); color: var(--on-accent); font-family: var(--mono); font-size: 0.82rem }
+ol.howto b { font-size: 0.92rem }
+ol.howto span { color: var(--muted) }
+
+@media (max-width: 760px) {
+  ol.howto { gap: 6px } ol.howto li { padding: 8px 12px }
+  .filters select { flex: 1 1 calc(50% - 8px); max-width: 100% }
+}
+.filters select { max-width: 100%; min-width: 0 }
+
+/* footer */
+footer.site { padding-block: 44px 48px }
+.fgrid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 0.8fr) minmax(0, 1fr); gap: 32px; align-items: start }
+.fgrid .who { display: grid; gap: 6px }
+.fgrid .who .name { font-family: var(--serif); font-size: 1.25rem; font-weight: 700; color: var(--ink) }
+.fgrid .who p { font-size: 0.9rem; color: var(--muted) }
+.fgrid .lines { margin-top: 8px }
+.fgrid .label { margin-bottom: 10px }
+.flinks { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; font-size: 0.9rem }
+.flinks a { color: var(--ink); text-decoration: none } .flinks a:hover { color: var(--accent) }
+dl.fver { display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; margin: 0; font-size: 0.86rem }
+dl.fver dt { color: var(--muted) } dl.fver dd { margin: 0; color: var(--ink) }
+.cp { font: inherit; font-size: 0.8rem; background: transparent; color: var(--accent); border: 1px solid var(--rule); border-radius: 6px; padding: 4px 10px; cursor: pointer; min-width: 4.5em }
+.fine { border-top: 1px solid var(--rule); padding-top: 18px; margin-top: 28px }
+.fine b { color: var(--ink); font-weight: 600 }
+@media (max-width: 860px) { .fgrid { grid-template-columns: minmax(0, 1fr) } }
+
+/* print: a clean review copy */
+@media print {
+  .sitebar, .subnav, footer.site script, .filters, .toolbar, .more, .acts, .tabs, .zoom, .btn, .cp, .copy { display: none !important }
+  body { background: #fff; color: #000; font-size: 11pt }
+  section { padding-block: 14px; break-inside: auto }
+  .tbl { box-shadow: none; overflow: visible; border: 0 }
+  table { min-width: 0 !important; font-size: 9pt }
+  th { position: static }
+  header.top { background: none; padding-block: 0 12px }
+  a { color: inherit; text-decoration: none }
+}
 </style>
 
-<nav class="index" aria-label="页面目录"><div class="wrap">
-  <a href="#about">背景与目标</a><a href="#methods">方法流程</a><a href="#basis">项目与数据</a><a href="#status">名录现状</a><a href="#figures">图件</a><a href="#gaps">局限与需求</a><a href="#partners">合作分工</a><a href="#register">资料登记</a><a href="#review">优先核查</a><a href="checklist.html">名录核查表 ↗</a><a href="atlas.html">协作地图 ↗</a><a href="#standard">汇交规范</a><a href="#plan">工作计划</a><a href="#thanks">邀请与致谢</a><a href="#contact">联系</a>
-</div></nav>
+<header class="sitebar"><div class="wrap"><a class="brand" href="./"><svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="var(--accent)"/><text x="16" y="23" font-size="19" text-anchor="middle" fill="var(--on-accent)" font-family="var(--serif)">豫</text></svg><span><b>河南陆生脊椎动物编目协作</b><small>Henan Terrestrial Vertebrate Inventory</small></span></a><nav class="mainnav" aria-label="主导航"><a href="./" aria-current="page">项目概况</a><a href="checklist.html">名录核查表</a><a href="atlas.html">协作地图</a><a href="./#register">资料登记</a><a href="#contact">联系</a></nav></div><nav class="subnav" aria-label="本页目录"><div class="wrap"><a href="#join">参与方式</a><a href="#about">背景与目标</a><a href="#status">名录现状</a><a href="#gaps">协作需求</a><a href="#review">优先核查</a><a href="#partners">合作分工</a><a href="#register">资料登记</a><a href="#standard">汇交规范</a><a href="#methods">方法流程</a><a href="#figures">图件</a><a href="#basis">项目与数据</a><a href="#plan">工作计划</a></div></nav></header>
 
 <header class="top"><div class="wrap grid">
   <div>
     <p class="label">Henan terrestrial vertebrate inventory · collaboration brief</p>
-    <h1>河南省陆生脊椎动物编目协作<span class="en">Henan Terrestrial Vertebrate Inventory: Collaboration Brief</span></h1>
+    <h1><span class="nb">河南省陆生脊椎动物</span><span class="nb">编目协作</span><span class="en">Henan Terrestrial Vertebrate Inventory: Collaboration Brief</span></h1>
     <p class="lede">本页面向省内高校类群团队、自然保护地、主管部门和标本馆，介绍名录 v12 的现状、仍未解决的问题，以及邀请各方共同补充的资料。目标是在统一分类标准和证据规则下，形成一份逐种可追溯、具有县级分布的河南省陆生脊椎动物名录，并作为后续监测和保护评估的基线。我们诚挚邀请各位专家学者和同仁加入，共同完成这份属于河南的动物本底名录。</p>
     <div class="meta">
       <span class="chip">名录 v12 · 2026-11-04</span>
@@ -253,6 +363,17 @@ a.v { color: var(--ink); text-decoration: none }
 </div></header>
 
 <main>
+<section id="join" class="join"><div class="wrap">
+  <h2>三种参与方式<span class="en">Three ways to take part</span></h2>
+  <p class="read">请选择最方便的一种，均无需注册，电脑和手机都可以打开。只看熟悉的类群或地区即可，不必一次完成。</p>
+  <div class="ways">
+    <a class="way" href="checklist.html"><span class="no">01 · 审查</span><h3>逐种核查名录</h3><p>754 个分类单元逐一列出收录状态、证据、保护等级和市县分布，可按类群、市县或保护区筛选，也可下载类群核查工作簿批量填写。</p><span class="go">打开名录核查表 →</span></a>
+    <a class="way" href="atlas.html"><span class="no">02 · 修订</span><h3>在地图上评论与修改</h3><p>点击县查看物种，对任一物种发表评论、建议修改、补充县级或保护地记录，也可以提出名录尚未收录的物种；经项目组审核后公开。</p><span class="go">打开协作地图 →</span></a>
+    <a class="way" href="#register"><span class="no">03 · 资料</span><h3>登记可提供的资料</h3><p>调查名录、科考报告、标本清单、红外相机或影像资料，先登记意向即可，不需要现在提交原始数据，项目组会逐一联系。</p><span class="go">填写资料登记 →</span></a>
+  </div>
+  <p class="alt"><span>网络不便时：</span><a href="https://wj.qq.com/s2/28535654/hzhg/" target="_blank" rel="noopener">资料登记问卷</a><a href="https://wj.qq.com/s2/28540090/hul2/" target="_blank" rel="noopener">物种核查意见问卷</a><a href="mailto:chenchen.ding@pku.edu.cn">chenchen.ding@pku.edu.cn</a><span>微信 185 1084 0408</span></p>
+</div></section>
+
 <section id="about"><div class="wrap">
   <h2>编目背景与目标<span class="en">Why a new Henan checklist</span></h2>
   <div class="read stack">
@@ -279,48 +400,6 @@ a.v { color: var(--ink); text-decoration: none }
   </div>
 </div></section>
 
-<section id="methods"><div class="wrap">
-  <h2>方法流程<span class="en">How the checklist is built</span></h2>
-  <p class="read">编目按以下五个步骤进行，每个物种的收录或存疑决定都保留来源和理由，可逐条回查。</p>
-  <ol class="steps">
-    <li><div><h3>统一分类标准</h3><p>以《中国生物物种名录》2026 版为准，建立同物异名与旧名对照，分类修订采用原始研究的处理意见。</p></div></li>
-    <li><div><h3>整合多源资料</h3><p>数据库河南分布、新纪录与类群修订文献、红外相机数据、保护地科考与资源调查资料、政府公开文件，以及中国观鸟记录中心的观鸟报告。</p></div></li>
-    <li><div><h3>证据分级</h3><p>按数据库记载、标本与分子鉴定、已发表文献与红外相机影像、重复观测四类收录；证据不足、仅见二手名录、分类概念不明或起源待核的列为存疑。</p></div></li>
-    <li><div><h3>县级分布与敏感信息处理</h3><p>只采用能明确对应到县级单元的记录；国家一级重点保护和极危、濒危物种只公开到市级。</p></div></li>
-    <li><div><h3>专家审定与版本发布</h3><p>邀请各类群专家审定存疑与重复观测名单，名录与县级分布数据集按版本发布，并建立年度更新机制。</p></div></li>
-  </ol>
-</div></section>
-
-<section id="basis"><div class="wrap">
-  <h2>依托项目与数据基础<span class="en">Funding and data foundations</span></h2>
-  <div class="two">
-    <div class="stack">
-      <h3>依托项目</h3>
-      <div class="funds">
-        <div class="fund"><span>国家自然科学基金青年科学基金项目（C 类）：中国陆生脊椎动物新纪录发现机制与热点预测（2027.01—2029.12，已获批，主持：丁晨晨）</span><span class="no">32602379</span></div>
-        <div class="fund"><span>北京市自然科学基金青年 C 类项目：中国哺乳动物新纪录分类学特征与时空格局研究（2026.01—2027.12，在研，主持：丁晨晨）</span><span class="no">5264031</span></div>
-      </div>
-      <p class="count">本编目是上述项目中陆生脊椎动物新纪录与生物多样性知识缺口研究的组成部分。</p>
-      <h3>相关编目工作</h3>
-      <ul style="margin:0;padding-left:1.1em;font-size:.92rem">
-        <li>编委：《中国哺乳动物多样性：编目、分布与保护》（蒋志刚等，2024，海峡出版社）</li>
-        <li>参与：《中国生物多样性红色名录—脊椎动物卷》编研</li>
-      </ul>
-    </div>
-    <div class="stack">
-      <h3>项目组已有的数据积累</h3>
-      <p style="font-size:.92rem">项目组长期从事中国陆生脊椎动物新分布纪录的收集与分析，已建成以下数据库。它们是本次河南编目的主要资料来源，也可以为合作者的研究提供支持。</p>
-    </div>
-  </div>
-  <div class="assets">
-    <div class="asset"><h3>中国鸟类省级新纪录数据集（CBNR）</h3><p class="figs">1,029 条记录 · 568 种 · 33 个省级单元 · 2000—2025</p><p>逐条整理、分类标准化并带坐标的鸟类省级新分布纪录。</p><p class="st">已公开：Zenodo，doi:10.5281/zenodo.20809949</p></div>
-    <div class="asset"><h3>中国哺乳动物省级新纪录数据集</h3><p class="figs">全国哺乳动物省级新分布纪录</p><p>用于分析新纪录的发现机制与空间格局。</p><p class="st">已发表：Ding et al., 2025, Global Ecology and Biogeography</p></div>
-    <div class="asset"><h3>中国两栖爬行动物省级新纪录数据集（CHNR）</h3><p class="figs">437 个新纪录事件 · 288 种 · 32 个省级单元</p><p>与 CBNR 采用相同的事件定义和清洗流程。</p><p class="st">整理完成，尚未发表</p></div>
-    <div class="asset"><h3>中国红外相机监测文献数据库</h3><p class="figs">931 篇文献 · 1,223 个调查单元 · 35,405 条指标记录 · 934 种</p><p>汇总全国红外相机研究的物种记录、调查努力与相对丰度指标。</p><p class="st">审查版，持续更新</p></div>
-    <div class="asset"><h3>中国观鸟记录中心河南数据</h3><p class="figs">2010—2024 年 · 9,137 次报告活动 · 133 个县级单元</p><p>经数据提供者许可用于本研究，原始明细不对外分发。</p><p class="st">2026 年 8 月下载</p></div>
-  </div>
-</div></section>
-
 <section id="status"><div class="wrap">
   <h2>名录现状<span class="en">Where the checklist stands</span></h2>
   <div class="read stack">
@@ -329,12 +408,6 @@ a.v { color: var(--ink); text-decoration: none }
   </div>
   <div class="classes" id="classes" aria-label="各纲物种数与县级覆盖"></div>
   <div class="legend-mini"><span><b style="background:var(--muted)"></b>收录物种数（与鸟纲 495 种同一比例）</span><span><b style="background:var(--muted);opacity:.55"></b>有记录的县级单元占 157 个的比例</span></div>
-</div></section>
-
-<section id="figures"><div class="wrap">
-  <h2>图件<span class="en">Figures (v12 manuscript)</span></h2>
-  <p class="count">点击图片可放大查看。图件为研究稿版本，坐标和县级细节以正式发布版为准。</p>
-  <div class="plates" id="plates"></div>
 </div></section>
 
 <section id="gaps"><div class="wrap">
@@ -353,6 +426,30 @@ a.v { color: var(--ink); text-decoration: none }
       <tr><td><span class="pill p3">一般</span></td><td>行政底图来源、IUCN 快照版本待核定；保护地矢量不完整</td><td>官方县界与保护地边界数据或其来源说明</td><td>主管部门</td><td>地图可正式出版</td></tr>
     </tbody>
   </table></div>
+</div></section>
+
+<section id="review"><div class="wrap">
+  <h2>优先核查清单<span class="en">Priority review lists</span></h2>
+  <p class="read" style="margin-bottom:18px">以下名单需要类群专家的凭证或意见。如掌握相关标本、照片或文献，请告知项目组。国家一级重点保护和中国红色名录极危、濒危物种的县级位置不在此公开。</p>
+  <div class="invite" style="margin-bottom:22px"><p><b>以下两份名单只是重点。</b>全部 754 个分类单元的收录状态、证据依据、保护等级和市（县）分布见名录核查表，可按类群、优先级、市县和自然保护区筛选，生成链接或导出后发给对应的专家、保护区或主管部门；对单个物种的意见可直接在协作地图上提交。</p>
+    <p class="actions"><a class="btn" href="checklist.html">打开名录核查表</a><a class="btn ghost" href="atlas.html">打开协作地图</a></p></div>
+  <div class="tabs" role="tablist">
+    <button role="tab" id="tab-rep" aria-selected="true" aria-controls="panel-rep">重复观测鸟类 <span class="num">24</span></button>
+    <button role="tab" id="tab-dbt" aria-selected="false" aria-controls="panel-dbt">存疑分类单元 <span class="num">90</span></button>
+  </div>
+  <div id="panel-rep" role="tabpanel" aria-labelledby="tab-rep">
+    <p class="count">已按规则纳入名录，但尚无逐条影像审核。按报告次数排序。</p>
+    <div class="tbl"><table><thead><tr><th>中文名</th><th>学名</th><th style="text-align:right">报告次数</th><th style="text-align:right">跨年数</th><th style="text-align:right">县级单元</th><th>范围图相交</th></tr></thead><tbody id="rep-body"></tbody></table></div>
+  </div>
+  <div id="panel-dbt" role="tabpanel" aria-labelledby="tab-dbt" hidden>
+    <div class="filters">
+      <select id="f-class" aria-label="按纲筛选"><option value="">全部纲</option><option>两栖纲</option><option>爬行纲</option><option>鸟纲</option><option>哺乳纲</option></select>
+      <select id="f-reason" aria-label="按存疑原因筛选"><option value="">全部原因</option></select>
+      <input id="f-q" type="search" placeholder="搜索中文名或学名" aria-label="搜索中文名或学名">
+    </div>
+    <p class="count" id="dbt-count"></p>
+    <div class="tbl"><table><thead><tr><th>纲</th><th>中文名</th><th>学名</th><th>存疑原因</th><th>依据</th></tr></thead><tbody id="dbt-body"></tbody></table></div>
+  </div>
 </div></section>
 
 <section id="partners"><div class="wrap">
@@ -382,30 +479,6 @@ a.v { color: var(--ink); text-decoration: none }
       <figure class="qr"><svg width="148" height="148" class="segno"><g transform="scale(4)"><path fill="#fff" d="M0 0h37v37h-37z"/><path class="qrline" stroke="#1e2a2e" d="M4 4.5h7m2 0h1m3 0h1m1 0h1m1 0h1m1 0h1m2 0h7m-29 1h1m5 0h1m2 0h1m1 0h5m2 0h1m3 0h1m5 0h1m-29 1h1m1 0h3m1 0h1m1 0h6m1 0h1m2 0h2m2 0h1m1 0h3m1 0h1m-29 1h1m1 0h3m1 0h1m1 0h1m1 0h3m1 0h2m1 0h2m1 0h1m1 0h1m1 0h3m1 0h1m-29 1h1m1 0h3m1 0h1m1 0h1m1 0h1m1 0h1m2 0h1m3 0h1m2 0h1m1 0h3m1 0h1m-29 1h1m5 0h1m1 0h1m3 0h1m2 0h2m3 0h1m1 0h1m5 0h1m-29 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-21 1h2m1 0h2m1 0h1m1 0h1m2 0h2m-21 1h1m1 0h5m3 0h1m6 0h3m2 0h5m-26 1h1m6 0h1m1 0h5m4 0h1m2 0h3m3 0h1m-29 1h1m1 0h1m1 0h4m1 0h1m2 0h7m2 0h1m1 0h2m-25 1h3m1 0h1m2 0h4m1 0h2m2 0h1m2 0h1m4 0h2m1 0h1m-22 1h3m2 0h2m1 0h2m1 0h2m1 0h2m1 0h1m1 0h2m-26 1h1m1 0h3m3 0h1m2 0h1m3 0h1m2 0h1m1 0h4m3 0h1m-29 1h2m2 0h1m1 0h2m7 0h1m4 0h1m1 0h1m2 0h2m-22 1h1m1 0h1m2 0h2m2 0h2m3 0h1m1 0h3m3 0h1m-27 1h3m1 0h2m1 0h1m8 0h2m1 0h1m4 0h2m-27 1h5m3 0h1m2 0h4m1 0h1m2 0h4m1 0h1m1 0h1m1 0h1m-29 1h1m1 0h1m3 0h1m5 0h4m1 0h1m2 0h2m4 0h1m-27 1h1m4 0h1m3 0h1m1 0h3m4 0h3m1 0h1m4 0h1m-28 1h1m4 0h3m1 0h4m1 0h1m1 0h9m1 0h3m-21 1h1m3 0h1m3 0h1m3 0h1m3 0h5m-29 1h7m3 0h1m4 0h1m3 0h2m1 0h1m1 0h3m-27 1h1m5 0h1m1 0h1m3 0h1m1 0h2m4 0h1m3 0h1m3 0h1m-29 1h1m1 0h3m1 0h1m1 0h2m2 0h1m4 0h2m1 0h5m1 0h2m-28 1h1m1 0h3m1 0h1m1 0h1m2 0h1m1 0h2m1 0h1m2 0h1m5 0h4m-29 1h1m1 0h3m1 0h1m1 0h3m3 0h3m2 0h9m-28 1h1m5 0h1m2 0h2m5 0h1m1 0h1m1 0h1m1 0h2m1 0h1m1 0h1m-28 1h7m1 0h1m3 0h3m2 0h3m2 0h5"/></g></svg><figcaption>微信扫码填写</figcaption></figure></div>
   <div class="dl"><a class="btn ghost" href="files/河南编目协作_资料登记表.xlsx" download>下载 Excel 登记表</a>
     <span class="status">含“资料登记”“逐条记录（可选）”和“填写说明”三张表，填好后发送至 chenchen.ding@pku.edu.cn。</span></div>
-</div></section>
-
-<section id="review"><div class="wrap">
-  <h2>优先核查清单<span class="en">Priority review lists</span></h2>
-  <p class="read" style="margin-bottom:18px">以下名单需要类群专家的凭证或意见。如掌握相关标本、照片或文献，请告知项目组。国家一级重点保护和中国红色名录极危、濒危物种的县级位置不在此公开。</p>
-  <div class="invite" style="margin-bottom:22px"><p><b>完整名录核查表</b>：全部 754 个分类单元的收录状态、证据依据、保护等级和市（县）分布，可按类群、优先级、核查重点、市县和自然保护区筛选，导出后发给对应的专家、保护区或主管部门，也可下载按类群的核查工作簿。</p>
-    <p><a class="btn" href="checklist.html" style="text-decoration:none">打开名录核查表</a> <a class="btn ghost" href="atlas.html" style="text-decoration:none">打开协作地图（可评论、建议、补充记录）</a></p></div>
-  <div class="tabs" role="tablist">
-    <button role="tab" id="tab-rep" aria-selected="true" aria-controls="panel-rep">重复观测鸟类 <span class="num">24</span></button>
-    <button role="tab" id="tab-dbt" aria-selected="false" aria-controls="panel-dbt">存疑分类单元 <span class="num">90</span></button>
-  </div>
-  <div id="panel-rep" role="tabpanel" aria-labelledby="tab-rep">
-    <p class="count">已按规则纳入名录，但尚无逐条影像审核。按报告次数排序。</p>
-    <div class="tbl"><table><thead><tr><th>中文名</th><th>学名</th><th style="text-align:right">报告次数</th><th style="text-align:right">跨年数</th><th style="text-align:right">县级单元</th><th>范围图相交</th></tr></thead><tbody id="rep-body"></tbody></table></div>
-  </div>
-  <div id="panel-dbt" role="tabpanel" aria-labelledby="tab-dbt" hidden>
-    <div class="filters">
-      <select id="f-class" aria-label="按纲筛选"><option value="">全部纲</option><option>两栖纲</option><option>爬行纲</option><option>鸟纲</option><option>哺乳纲</option></select>
-      <select id="f-reason" aria-label="按存疑原因筛选"><option value="">全部原因</option></select>
-      <input id="f-q" type="search" placeholder="搜索中文名或学名" aria-label="搜索中文名或学名">
-    </div>
-    <p class="count" id="dbt-count"></p>
-    <div class="tbl"><table><thead><tr><th>纲</th><th>中文名</th><th>学名</th><th>存疑原因</th><th>依据</th></tr></thead><tbody id="dbt-body"></tbody></table></div>
-  </div>
 </div></section>
 
 <section id="standard"><div class="wrap">
@@ -445,6 +518,54 @@ a.v { color: var(--ink); text-decoration: none }
   </div>
 </div></section>
 
+<section id="methods"><div class="wrap">
+  <h2>方法流程<span class="en">How the checklist is built</span></h2>
+  <p class="read">编目按以下五个步骤进行，每个物种的收录或存疑决定都保留来源和理由，可逐条回查。</p>
+  <ol class="steps">
+    <li><div><h3>统一分类标准</h3><p>以《中国生物物种名录》2026 版为准，建立同物异名与旧名对照，分类修订采用原始研究的处理意见。</p></div></li>
+    <li><div><h3>整合多源资料</h3><p>数据库河南分布、新纪录与类群修订文献、红外相机数据、保护地科考与资源调查资料、政府公开文件，以及中国观鸟记录中心的观鸟报告。</p></div></li>
+    <li><div><h3>证据分级</h3><p>按数据库记载、标本与分子鉴定、已发表文献与红外相机影像、重复观测四类收录；证据不足、仅见二手名录、分类概念不明或起源待核的列为存疑。</p></div></li>
+    <li><div><h3>县级分布与敏感信息处理</h3><p>只采用能明确对应到县级单元的记录；国家一级重点保护和极危、濒危物种只公开到市级。</p></div></li>
+    <li><div><h3>专家审定与版本发布</h3><p>邀请各类群专家审定存疑与重复观测名单，名录与县级分布数据集按版本发布，并建立年度更新机制。</p></div></li>
+  </ol>
+</div></section>
+
+<section id="figures"><div class="wrap">
+  <h2>图件<span class="en">Figures (v12 manuscript)</span></h2>
+  <p class="count">点击图片可放大查看。图件为研究稿版本，坐标和县级细节以正式发布版为准。</p>
+  <div class="plates" id="plates"></div>
+</div></section>
+
+<section id="basis"><div class="wrap">
+  <h2>依托项目与数据基础<span class="en">Funding and data foundations</span></h2>
+  <div class="two">
+    <div class="stack">
+      <h3>依托项目</h3>
+      <div class="funds">
+        <div class="fund"><span>国家自然科学基金青年科学基金项目（C 类）：中国陆生脊椎动物新纪录发现机制与热点预测（2027.01—2029.12，已获批，主持：丁晨晨）</span><span class="no">32602379</span></div>
+        <div class="fund"><span>北京市自然科学基金青年 C 类项目：中国哺乳动物新纪录分类学特征与时空格局研究（2026.01—2027.12，在研，主持：丁晨晨）</span><span class="no">5264031</span></div>
+      </div>
+      <p class="count">本编目是上述项目中陆生脊椎动物新纪录与生物多样性知识缺口研究的组成部分。</p>
+      <h3>相关编目工作</h3>
+      <ul style="margin:0;padding-left:1.1em;font-size:.92rem">
+        <li>编委：《中国哺乳动物多样性：编目、分布与保护》（蒋志刚等，2024，海峡出版社）</li>
+        <li>参与：《中国生物多样性红色名录—脊椎动物卷》编研</li>
+      </ul>
+    </div>
+    <div class="stack">
+      <h3>项目组已有的数据积累</h3>
+      <p style="font-size:.92rem">项目组长期从事中国陆生脊椎动物新分布纪录的收集与分析，已建成以下数据库。它们是本次河南编目的主要资料来源，也可以为合作者的研究提供支持。</p>
+    </div>
+  </div>
+  <div class="assets">
+    <div class="asset"><h3>中国鸟类省级新纪录数据集（CBNR）</h3><p class="figs">1,029 条记录 · 568 种 · 33 个省级单元 · 2000—2025</p><p>逐条整理、分类标准化并带坐标的鸟类省级新分布纪录。</p><p class="st">已公开：Zenodo，doi:10.5281/zenodo.20809949</p></div>
+    <div class="asset"><h3>中国哺乳动物省级新纪录数据集</h3><p class="figs">全国哺乳动物省级新分布纪录</p><p>用于分析新纪录的发现机制与空间格局。</p><p class="st">已发表：Ding et al., 2025, Global Ecology and Biogeography</p></div>
+    <div class="asset"><h3>中国两栖爬行动物省级新纪录数据集（CHNR）</h3><p class="figs">437 个新纪录事件 · 288 种 · 32 个省级单元</p><p>与 CBNR 采用相同的事件定义和清洗流程。</p><p class="st">整理完成，尚未发表</p></div>
+    <div class="asset"><h3>中国红外相机监测文献数据库</h3><p class="figs">931 篇文献 · 1,223 个调查单元 · 35,405 条指标记录 · 934 种</p><p>汇总全国红外相机研究的物种记录、调查努力与相对丰度指标。</p><p class="st">审查版，持续更新</p></div>
+    <div class="asset"><h3>中国观鸟记录中心河南数据</h3><p class="figs">2010—2024 年 · 9,137 次报告活动 · 133 个县级单元</p><p>经数据提供者许可用于本研究，原始明细不对外分发。</p><p class="st">2026 年 8 月下载</p></div>
+  </div>
+</div></section>
+
 <section id="plan"><div class="wrap">
   <h2>工作计划<span class="en">Proposed workplan</span></h2>
   <p class="count">以下时间为建议安排，将根据各合作方的反馈调整。</p>
@@ -455,6 +576,7 @@ a.v { color: var(--ink); text-decoration: none }
     <div class="phase"><p class="when">2027-05 — 06</p><h3>成文与发布</h3><ul><li>修订稿投《生物多样性》生物编目栏目</li><li>名录与县级分布数据集同步发布</li><li>建立年度更新机制</li></ul></div>
   </div>
 </div></section>
+
 <section id="thanks"><div class="wrap">
   <h2>合作邀请与致谢<span class="en">Invitation and acknowledgements</span></h2>
   <div class="invite">
@@ -466,23 +588,56 @@ a.v { color: var(--ink); text-decoration: none }
 </main>
 
 <footer class="site" id="contact"><div class="wrap">
-  <div class="contact">
+  <div class="fgrid">
     <div class="who">
       <p class="label">Contact · 联系方式</p>
       <span class="name">丁晨晨</span>
       <p>北京大学</p>
-      <p>欢迎就合作意向、资料汇交或专家审定直接联系。</p>
+      <p>欢迎就物种审查、凭证核对、资料汇交或专家审定直接联系，也欢迎电话或面谈交流。</p>
+      <div class="lines">
+        <div class="line"><span class="k">电子邮箱</span><a class="v" id="ft-mail" href="mailto:chenchen.ding@pku.edu.cn">chenchen.ding@pku.edu.cn</a><button class="cp" type="button" data-cp="chenchen.ding@pku.edu.cn">复制</button></div>
+        <div class="line"><span class="k">手机 / 微信</span><span class="v">185 1084 0408</span><button class="cp" type="button" data-cp="18510840408">复制</button></div>
+      </div>
     </div>
-    <div class="lines">
-      <div class="line"><span class="k">电子邮箱</span><a class="v" id="c-mail" href="mailto:chenchen.ding@pku.edu.cn">chenchen.ding@pku.edu.cn</a><button class="copy" type="button" data-copy="c-mail">复制</button></div>
-      <div class="line"><span class="k">手机 / 微信</span><span class="v" id="c-tel">185 1084 0408</span><button class="copy" type="button" data-copy="c-tel" data-raw="18510840408">复制</button></div>
+    <div>
+      <p class="label">Pages · 本站页面</p>
+      <ul class="flinks"><li><a href="./">项目概况</a></li><li><a href="checklist.html">名录核查表</a></li><li><a href="atlas.html">协作地图</a></li><li><a href="./#register">资料登记</a></li><li><a href="./#standard">资料汇交规范</a></li><li><a href="./#plan">工作计划</a></li></ul>
+    </div>
+    <div>
+      <p class="label">Version · 版本</p>
+      <dl class="fver">
+        <dt>名录版本</dt><dd>v12（2026-11-04）</dd>
+        <dt>分类标准</dt><dd>中国生物物种名录 2026</dd>
+        <dt>网站更新</dt><dd>2026-11-05</dd>
+        <dt>下一版本</dt><dd>2027 年 4 月专家审定后发布</dd>
+      </dl>
     </div>
   </div>
   <div class="fine">
-    <p>名录、代码与修订记录存档于项目私有仓库，按版本更新。本页内容为研究稿，数字可能随资料补充而变化，请勿外传或引用。</p>
+    <p><b>研究稿声明：</b>本站内容为未发表的研究稿，数字可能随资料补充而变化，请勿外传或引用。</p>
+    <p><b>敏感信息：</b>国家一级重点保护和中国红色名录极危、濒危物种只公开到市级；精确位置请通过邮件单独告知项目组，不会公开。</p>
+    <p><b>资料使用：</b>合作者提供的资料仅用于本名录编研，不向第三方转交；贡献在论文、数据集和致谢中如实署名。</p>
     <p>依托项目：国家自然科学基金青年科学基金项目（C 类）（32602379）；北京市自然科学基金青年 C 类项目（5264031）。</p>
   </div>
 </div></footer>
+<script>
+// 中文：页脚复制按钮与页内目录高亮；English: footer copy buttons and in-page nav highlighting.
+document.querySelectorAll(".cp").forEach((b) => b.addEventListener("click", async () => {
+  try { await navigator.clipboard.writeText(b.dataset.cp); b.textContent = "已复制"; } catch (e) { b.textContent = "请手动复制"; }
+  setTimeout(() => { b.textContent = "复制"; }, 1600);
+}));
+(() => {
+  const links = [...document.querySelectorAll(".subnav a")];
+  if (!links.length || !("IntersectionObserver" in window)) return;
+  const byId = Object.fromEntries(links.map((a) => [a.hash.slice(1), a]));
+  const io = new IntersectionObserver((es) => es.forEach((e) => {
+    if (!e.isIntersecting) return;
+    links.forEach((a) => a.classList.remove("on"));
+    const a = byId[e.target.id]; if (a) { a.classList.add("on"); a.scrollIntoView({ block: "nearest", inline: "nearest" }); }
+  }), { rootMargin: "-120px 0px -65% 0px" });
+  Object.keys(byId).forEach((id) => { const s = document.getElementById(id); if (s) io.observe(s); });
+})();
+</script>
 
 <div class="zoom" id="zoom" hidden><img id="zoom-img" alt=""></div>
 

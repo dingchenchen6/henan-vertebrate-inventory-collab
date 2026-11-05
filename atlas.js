@@ -212,7 +212,14 @@ async function boot() {
   }
   $("offline").hidden = S.online;
   loadFeed();
-  const h = location.hash.match(/^#(HN\d{4})$/); if (h) selectTaxon(h[1]);
+  // 中文：支持从核查表直接跳转到某物种的评论、修改或补充记录表单；English: deep links such as ?act=edit#HN0001.
+  const h = location.hash.match(/^#(HN\d{4})$/);
+  if (h) {
+    await selectTaxon(h[1]);
+    const act = new URLSearchParams(location.search).get("act");
+    if (["comment", "edit", "add_record"].includes(act) && S.byId[h[1]]) openForm(act);
+    if (act) history.replaceState(null, "", location.pathname + location.hash);
+  }
 }
 document.addEventListener("click", (e) => {
   const sp = e.target.closest("[data-id]"); if (sp) { $("hits").hidden = true; $("q").value = ""; selectTaxon(sp.dataset.id, true); history.replaceState(null, "", "#" + sp.dataset.id); return; }
