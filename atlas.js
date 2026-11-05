@@ -9,9 +9,9 @@ const SVGNS = "http://www.w3.org/2000/svg";
 const CLASSES = [["", "全部"], ["两栖纲", "两栖"], ["爬行纲", "爬行"], ["鸟纲", "鸟类"], ["哺乳纲", "兽类"]];
 const KIND_CN = { comment: "评论", edit: "修改建议", add_record: "补充记录", add_species: "新增物种" };
 const S = { rows: [], geo: null, places: null, byId: {}, cty: {}, cls: "", layer: "rec", county: null, taxon: null, summary: {}, online: false, order: [] };
-// 中文：图层——实证记录、加公民科学（待核）、范围图参照；English: map layers.
-const LAYERS = [["rec", "实证记录"], ["gb", "+公民科学（待核）"], ["rg", "范围图参照"]];
-// 中文：范围图县列表以十六进制位掩码存储（县序同 places.counties）；English: decode the county bitmask.
+// 中文：图层——实证记录、加公民科学（待核）、分布图参照；English: map layers.
+const LAYERS = [["rec", "实证记录"], ["gb", "+公民科学（待核）"], ["rg", "分布图参照"]];
+// 中文：分布图县列表以十六进制位掩码存储（县序同 places.counties）；English: decode the county bitmask.
 function unmask(hex) {
   const out = [];
   if (hex) { let v = BigInt("0x" + hex), i = 0; while (v > 0n) { if (v & 1n) out.push(S.order[i]); v >>= 1n; i++; } }
@@ -80,13 +80,13 @@ function paint() {
     if (r.cityonly) r.cities.forEach((x) => cityHl.add(x));
     const sw = (v, t) => `<span><i style="background:var(${v});border:1px solid var(--rule)"></i>${t}</span>`;
     $("legend").innerHTML = sw("--hl", "实证县级记录") + (r.gb.length ? sw("--hl2", "公民科学记录（待核）") : "") +
-      (infs.size ? sw("--inf", "常见种推定（默认有分布，待确认）") : "") + (rgs.size && !infs.size ? sw("--rgc", "范围图覆盖（参照，非记录）") : "") +
+      (infs.size ? sw("--inf", "常见种推定（默认有分布，待确认）") : "") + (rgs.size && !infs.size ? sw("--rgc", "分布图覆盖（参照，非记录）") : "") +
       (r.cityonly && r.cities.length ? `<span><i style="border:2px dashed var(--hl);height:6px"></i>仅公开到市级</span>` : "") + sw("--r0", "无");
   } else {
     const n = countsFor(S.cls);
     for (const c of Object.values(S.cty)) c.el.style.fill = `var(--r${binOf(n[c.code] || 0)})`;
     const lab = ["0", "1–19", "20–49", "50–99", "100–159", "≥160"];
-    $("legend").innerHTML = `<span>${{ rec: "县级实证记录物种数", gb: "实证加公民科学（待核）物种数", rg: "范围图覆盖物种数（参照）" }[S.layer]}：</span>` + lab.map((l, i) => `<span><i style="background:var(--r${i})"></i>${l}</span>`).join("");
+    $("legend").innerHTML = `<span>${{ rec: "县级实证记录物种数", gb: "实证加公民科学（待核）物种数", rg: "分布图覆盖物种数（参照）" }[S.layer]}：</span>` + lab.map((l, i) => `<span><i style="background:var(--r${i})"></i>${l}</span>`).join("");
   }
   document.querySelectorAll("path.city").forEach((p) => p.classList.toggle("hl", cityHl.has(p.dataset.city)));
   document.querySelectorAll("path.cty").forEach((p) => p.classList.toggle("sel", p.dataset.code === S.county));
@@ -128,16 +128,16 @@ function selectCounty(code) {
     <p class="count">县级记录不等于保护区内记录。</p></div>`;
   paint();
 }
-// 中文：本县参照层：公民科学（待核）、常见种推定、范围图覆盖但无记录；English: reference groups for a county.
+// 中文：本县参照层：公民科学（待核）、常见种推定、分布图覆盖但无记录；English: reference groups for a county.
 function refGroups(code, cls) {
   const listed = S.rows.filter((r) => r.status.startsWith("名录") && (!cls || r.cls === cls) && !r.cty.includes(code));
   const gb = listed.filter((r) => r.gb.includes(code));
   const inf = listed.filter((r) => !r.gb.includes(code) && infOf(r).includes(code));
   const rg = listed.filter((r) => !r.gb.includes(code) && !infOf(r).includes(code) && rgOf(r).includes(code));
   const grp = (xs, title, note) => xs.length ? `<details class="grp ref"><summary>${title} ${xs.length} 种</summary><p class="count">${note}</p>${xs.map((r) => speciesButton(r)).join("")}</details>` : "";
-  return grp(gb, "公民科学记录（GBIF，待核）", "来自 iNaturalist、eBird 和馆藏标本等，尚未逐条核对，未计入实证记录。") +
+  return grp(gb, "公民科学与监测记录（待核）", "来自 iNaturalist、eBird、馆藏标本和市县官方监测报道等，尚未逐条核对，未计入实证记录。") +
     grp(inf, "常见种推定（默认有分布）", "全省广布的常见种，按规则推定本县有分布，尚无本县记录。请协助确认或提供凭证。") +
-    grp(rg, "范围图覆盖、尚无记录", "IUCN/BirdLife 原生分布范围图覆盖本县 5% 以上面积，但目前没有记录。这是“可能有分布”的参照，请协助确认。");
+    grp(rg, "分布图覆盖、尚无记录", "中国脊椎动物红色名录分布图覆盖本县 5% 以上面积，但目前没有记录。这是“可能有分布”的参照，请协助确认。");
 }
 
 async function selectTaxon(id, fromSearch) {
@@ -148,7 +148,7 @@ async function selectTaxon(id, fromSearch) {
     ["保护与受威胁", prot || "—"], ["市（县）分布", r.dist || "暂无可公开的县级记录"], ["国家重要栖息地名录", r.hab.join("；")],
     ["观鸟报告", r.reports ? `${r.reports} 次，跨 ${r.years} 年` : ""],
     ["公民科学（GBIF）", r.gbn ? `${r.gbn} 条记录` + (r.gb.length ? `，新增 ${r.gb.length} 个县（待核）` : r.cityonly ? "（敏感物种，不显示县级）" : "") : ""],
-    ["范围图参照", rgOf(r).length ? `覆盖 ${rgOf(r).length} 个县（原生分布范围≥县域 5%，非记录）` : ""],
+    ["分布图参照", rgOf(r).length ? `覆盖 ${rgOf(r).length} 个县（红色名录分布图覆盖≥县域 5%，非记录）` : ""],
     ["常见种推定", infOf(r).length ? `默认 ${infOf(r).length} 个县有分布（常见广布种规则推定，待地方确认）` : ""], ["需要的证据", r.need]].filter(([, v]) => v);
   $("view").innerHTML = `<div class="card2"><p class="crumbs"><button type="button" data-go="prov">河南省</button> › 物种</p>
     <h3>${esc(r.cn || r.sci)} <i>${esc(r.sci)}</i></h3><div>${flagPills(r)} <span class="pill">优先级 ${r.prio}</span></div>
