@@ -247,9 +247,9 @@ table.totals tr.me td { background: color-mix(in srgb, var(--accent) 9%, transpa
   li.stg .when { text-align: left; padding-top: 0 }
 }
 
-:root { --r0: #F1F3EF; --r1: #D6E6DB; --r2: #A9CDB8; --r3: #6FAA8E; --r4: #3F8569; --r5: #255A4C; --hl: #A0435A; --hl2: #E7B8C3 }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --r0: #222B2D; --r1: #24453D; --r2: #2E6152; --r3: #3E7F69; --r4: #5BA387; --r5: #8CCBB0; --hl: #E38FA2; --hl2: #6B3442 } }
-:root[data-theme="dark"] { --r0: #222B2D; --r1: #24453D; --r2: #2E6152; --r3: #3E7F69; --r4: #5BA387; --r5: #8CCBB0; --hl: #E38FA2; --hl2: #6B3442 }
+:root { --rgc: #E2E6CF; --inf: #F2DFA6; --r0: #F1F3EF; --r1: #D6E6DB; --r2: #A9CDB8; --r3: #6FAA8E; --r4: #3F8569; --r5: #255A4C; --hl: #A0435A; --hl2: #E7B8C3 }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --rgc: #3A4530; --inf: #5C4A1E; --r0: #222B2D; --r1: #24453D; --r2: #2E6152; --r3: #3E7F69; --r4: #5BA387; --r5: #8CCBB0; --hl: #E38FA2; --hl2: #6B3442 } }
+:root[data-theme="dark"] { --rgc: #3A4530; --inf: #5C4A1E; --r0: #222B2D; --r1: #24453D; --r2: #2E6152; --r3: #3E7F69; --r4: #5BA387; --r5: #8CCBB0; --hl: #E38FA2; --hl2: #6B3442 }
 .atlas { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 20px; align-items: start; padding-block: 18px 40px }
 .mapbox { position: sticky; top: calc(76px + env(safe-area-inset-top, 0px)); background: var(--surface); border: 1px solid var(--rule); padding: 10px }
 .mapbar { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 8px }
@@ -299,6 +299,7 @@ dialog form { padding: 18px 20px; display: grid; gap: 12px }
 dialog h3 { font-size: 1.1rem }
 .warn-s { color: var(--hl); font-size: 0.82rem }
 .feed { display: grid; gap: 8px }
+details.grp.ref summary { color: var(--muted) } details.grp.ref .count { margin: 4px 0 }
 @media (max-width: 860px) { .atlas { grid-template-columns: minmax(0, 1fr) } .mapbox { position: static } }
 
 /* ---------- design layer (site_chrome.py) ---------- */
@@ -420,7 +421,7 @@ dl.fver dt { color: var(--muted) } dl.fver dd { margin: 0; color: var(--ink) }
   <p class="lede">点击地图上的县查看各类群物种和证据，点物种查看分布、讨论和凭证。可以对任一物种发表评论、提出修改，或补充县级、保护地记录，也可以提出名录尚未收录的物种。所有提交先由项目组审核，采纳后在此公开并进入下一版名录。</p>
   <div class="meta"><span class="chip">名录 v12 · 2026-11-04</span><span class="chip">敏感物种仅显示到市级</span><span class="chip warn">研究稿，尚未发表，请勿外传或引用</span></div>
   <ol class="howto">
-    <li><b>看地图</b><span>颜色表示各县有记录的物种数，可切换类群；点县查看物种，或直接搜索物种</span></li>
+    <li><b>看地图</b><span>颜色表示各县物种数，可切换类群和图层（实证记录、公民科学、范围图参照）；点县查看物种和“可能有、尚无记录”的清单</span></li>
     <li><b>提建议</b><span>在物种页发表评论、建议修改或补充记录；填写姓名和单位，联系方式仅项目组可见</span></li>
     <li><b>经审核公开</b><span>项目组逐条核对后采纳或说明理由，采纳内容在该物种下公开，并在下一版名录中注明贡献者</span></li>
   </ol>
@@ -432,6 +433,7 @@ dl.fver dt { color: var(--muted) } dl.fver dd { margin: 0; color: var(--ink) }
     <div class="mapbox">
       <div class="mapbar">
         <div class="seg" role="group" aria-label="选择类群" id="cls-seg"></div>
+        <div class="seg" role="group" aria-label="选择图层" id="layer-seg"></div>
         <button class="btn ghost" type="button" id="reset" style="margin-left:auto;font-size:.8rem;padding:4px 10px">全省</button>
       </div>
       <svg class="map" id="map" role="img" aria-label="河南省县级地图"></svg>
