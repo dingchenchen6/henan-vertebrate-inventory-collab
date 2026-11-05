@@ -81,7 +81,7 @@ function paint() {
     const sw = (v, t) => `<span><i style="background:var(${v});border:1px solid var(--rule)"></i>${t}</span>`;
     $("legend").innerHTML = sw("--hl", "实证县级记录") + (r.gb.length ? sw("--hl2", "公民科学记录（待核）") : "") +
       (infs.size ? sw("--inf", "常见种推定（默认有分布，待确认）") : "") + (rgs.size && !infs.size ? sw("--rgc", "分布图覆盖（参照，非记录）") : "") +
-      (r.cityonly && r.cities.length ? `<span><i style="border:2px dashed var(--hl);height:6px"></i>仅公开到市级</span>` : "") + sw("--r0", "无");
+      (r.cityonly && r.cities.length ? `<span><i style="border:2px dashed var(--hl);height:6px"></i>仅有市级记录</span>` : "") + sw("--r0", "无");
   } else {
     const n = countsFor(S.cls);
     for (const c of Object.values(S.cty)) c.el.style.fill = `var(--r${binOf(n[c.code] || 0)})`;
@@ -123,7 +123,7 @@ function selectCounty(code) {
     ${res.length ? `<p style="font-size:.86rem"><b>位于本县的保护地：</b>${res.map((x) => `${esc(x.name)}${x.hab.length ? `（重要栖息地名录主要保护物种：${esc(x.hab.join("、"))}等）` : ""}`).join("；")}</p>` : ""}
     <div class="acts"><button class="btn ghost" type="button" data-form="add_record_county">为本县补充记录</button></div>
     ${groups || '<p class="count">本县暂无该类群的县级记录，欢迎补充。</p>'}
-    ${cityOnly.length ? `<details class="grp"><summary>${esc(c.city)}仅公开到市级的单元 ${cityOnly.length} 个</summary>${cityOnly.map((r) => speciesButton(r, r.status)).join("")}</details>` : ""}
+    ${cityOnly.length ? `<details class="grp"><summary>${esc(c.city)}仅有市级记录的存疑或未收录单元 ${cityOnly.length} 个</summary>${cityOnly.map((r) => speciesButton(r, r.status)).join("")}</details>` : ""}
     ${refGroups(code, cls)}
     <p class="count">县级记录不等于保护区内记录。</p></div>`;
   paint();
