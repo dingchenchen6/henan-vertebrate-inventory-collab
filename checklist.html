@@ -252,7 +252,7 @@ tr.det td { background: var(--surface); padding: 12px 14px 16px }
 </head>
 <body>
 <nav class="index" aria-label="页面目录"><div class="wrap">
-  <a href="./">← 协作主页</a><a href="#reserves">按保护区查看</a><a href="#table">名录核查表</a><a href="#feedback">提交意见</a><a href="#rules">核查规则</a><a href="#contact">联系</a>
+  <a href="./">← 协作主页</a><a href="#reserves">按保护区查看</a><a href="atlas.html">协作地图 ↗</a><a href="#table">名录核查表</a><a href="#feedback">提交意见</a><a href="#rules">核查规则</a><a href="#contact">联系</a>
 </div></nav>
 
 <header class="top"><div class="wrap">
@@ -399,6 +399,7 @@ function detail(r) {
     ["市（县）分布", r.dist || "暂无可公开的县级记录"]];
   let h = items.filter(([, v]) => v).map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join("");
   if (r.need) h += `<dt>需要的证据</dt><dd class="need">${esc(r.need)}</dd>`;
+  h += `<dt>讨论与建议</dt><dd><a href="atlas.html#${r.id}">在协作地图中查看分布、评论或提出修改</a></dd>`;
   return `<tr class="det"><td colspan="7"><div class="det"><dl>${h}</dl></div></td></tr>`;
 }
 
